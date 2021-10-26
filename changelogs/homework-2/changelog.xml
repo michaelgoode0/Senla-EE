@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>   
+<databaseChangeLog
+   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+      http://www.liquibase.org/xml/ns/pro 
+      http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd"
+      logicalFilePath="homework-2">  
+
+    <changeSet id="create_database_db_user_t" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/create_database_db_users_t.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="create_database_db_user_profile_t" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/create_database_db_users_profiles_t.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="create_database_db_post_t" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/create_database_db_posts_t.sql" relativeToChangelogFile="true"/>
+    </changeSet> 
+
+    <changeSet id="create_database_db_post_comment_t" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/create_database_db_post_comments_t.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="connect_database_friends" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/connect_database_friends.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="create_database_permission_t" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/create_database_permissions_t.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="connect_permissions_and_users" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/connect_permissions_and_users.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="index_to_friends_from_user" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/add_index_to_friends_from_user.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="index_to_friend_to_user" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/add_index_to_friends_to_user.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="index_to_users_permissions_permissionsid" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/add_index_to_users_permissions_permissionid.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="index_to_users_permissions_userid" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/add_index_to_users_permissions_userid.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="index_to_users_profiles" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/add_index_to_users_profiles.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="index_to_users" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/add_index_to_users_t.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="index_to_post_comments_posts_id" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/add_index_to_post_comments_posts_id.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="index_to_posts_users_profiles_id" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/add_index_to_posts_users_profiles_id.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+</databaseChangeLog> 
