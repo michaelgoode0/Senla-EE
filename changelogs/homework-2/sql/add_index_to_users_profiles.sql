@@ -1,2 +1,2 @@
 Create index users_profile 
-on users_profiles_t(users_id);
+on users_profiles(users_id);

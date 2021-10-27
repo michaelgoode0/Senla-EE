@@ -1,4 +1,4 @@
-CREATE TABLE users_t (
+CREATE TABLE users (
     id bigint not null,
     email character varying(255),
     password character varying(255),
