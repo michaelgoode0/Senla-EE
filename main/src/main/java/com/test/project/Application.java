@@ -1,7 +1,7 @@
 package com.test.project;
 
-import com.test.kekw.ApplicationContext;
-import com.test.kekw.DependencyInjector;
+import com.test.tools.ApplicationContext;
+import com.test.tools.DependencyInjector;
 import com.test.project.api.controller.UserControllerInt;
 
 public class Application {

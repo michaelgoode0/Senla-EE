@@ -1,7 +1,6 @@
-package com.test.kekw;
+package com.test.tools;
 
 import com.test.annotations.Component;
-import com.test.annotations.Value;
 
 import org.reflections.Reflections;
 

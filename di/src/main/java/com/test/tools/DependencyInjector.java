@@ -1,4 +1,4 @@
-package com.test.kekw;
+package com.test.tools;
 
 
 import com.test.exceptions.InjectionException;
