@@ -63,7 +63,7 @@
     <build>
         <resources>
             <resource>
-                <directory>src/main/liquibases</directory>
+                <directory>src/main/liquibase</directory>
             </resource>
         </resources>
         <plugins>
