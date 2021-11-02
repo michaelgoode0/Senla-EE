@@ -4,6 +4,5 @@ target/
 
 # Project exclude files
 *.iml
-*.xml
 *.class
 *.jar
