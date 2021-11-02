@@ -1,9 +1,9 @@
 # Project exclude paths
-/.idea/
-/.target/
+.idea/
+target/
 
 # Project exclude files
 *.iml
+*.xml
 *.class
-liquibase-core-4.5.0.jar
-postgresql-42.3.0.jar
+*.jar
