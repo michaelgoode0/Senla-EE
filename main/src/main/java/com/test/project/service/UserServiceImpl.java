@@ -10,7 +10,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public String printUrl(){
-        return userRepository.printUrl();
+    public String getUrl(){
+        return userRepository.getUrl();
     }
 }

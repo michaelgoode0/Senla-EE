@@ -9,7 +9,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Value(value = "my.param.db")
     private String databaseUrl;
 
-    public String printUrl(){
+    public String getUrl(){
         return databaseUrl;
     }
 }

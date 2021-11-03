@@ -1,6 +1,7 @@
 package com.test.tools;
 
 
+import com.test.exceptions.CustomException;
 import com.test.exceptions.InjectionException;
 
 public class DependencyInjector {
@@ -11,7 +12,7 @@ public class DependencyInjector {
             ObjectFactory factory = new ObjectFactory();
             applicationContext.setFactory(factory);
             applicationContext.createContext(classScanner.reflectionsScan(startClass));
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException | CustomException e) {
             throw new InjectionException("Message", e);
         }
     }
