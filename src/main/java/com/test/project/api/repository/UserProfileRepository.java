@@ -1,6 +1,5 @@
 package com.test.project.api.repository;
 
-import com.test.project.entity.User;
 import com.test.project.entity.UserProfile;
 
 public interface UserProfileRepository {

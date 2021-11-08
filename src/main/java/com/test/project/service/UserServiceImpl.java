@@ -9,8 +9,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -55,12 +53,4 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-    @Override
-    public List<User> getList() {
-        return userRepository.getListOfUsers();
-    }
-
-    public User getById(Long id){
-        return userRepository.getById(id);
-    }
 }

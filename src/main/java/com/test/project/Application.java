@@ -9,6 +9,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class Application {
     public static void main(String[] args) {
+
         ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
         UserController userController = context.getBean(UserController.class);
         UserProfileController userProfileController = context.getBean(UserProfileController.class);
@@ -47,24 +48,5 @@ public class Application {
         String jsonStringPost1= "{\"id\":2,\"text\":\"Hello again\", \"profile\": null }";
         postController.create(jsonStringPost1);
         postController.delete(2L);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

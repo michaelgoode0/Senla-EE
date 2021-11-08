@@ -2,12 +2,7 @@ package com.test.project.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.test.project.api.service.PostService;
-import com.test.project.api.service.UserService;
 import com.test.project.dto.PostDto;
-import com.test.project.dto.UserDto;
-import com.test.project.entity.Post;
-import com.test.project.entity.User;
 import com.test.project.service.PostServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

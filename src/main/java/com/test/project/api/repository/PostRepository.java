@@ -1,6 +1,5 @@
 package com.test.project.api.repository;
 
-import com.test.project.dto.UserProfileDto;
 import com.test.project.entity.Post;
 
 public interface PostRepository {

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.project.api.service.UserService;
 import com.test.project.dto.UserDto;
-import com.test.project.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -62,9 +61,6 @@ public class UserController {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-    }
-    public User getById(Long id){
-        return userService.getById(id);
     }
     public String mapToJson(UserDto userDto) {
         try {
