@@ -32,17 +32,17 @@ public class UserProfileRepositoryImpl implements UserProfileRepository {
 
     @Override
     public UserProfile read(Long id) {
-        return getById(id).orElse(null);
+        return getById(id);
     }
 
     @Override
     public UserProfile delete(Long id) {
-        Optional<UserProfile> user= getById(id);
+        Optional<UserProfile> user= Optional.of(getById(id));
         userProfiles.remove(user.orElse(null));
         return user.orElse(null);
     }
 
-    private Optional<UserProfile> getById(long id){
-        return userProfiles.stream().filter(s->s.getId().equals(id)).findFirst();
+    private UserProfile getById(long id){
+        return userProfiles.stream().filter(s->s.getId().equals(id)).findFirst().orElse(null);
     }
 }

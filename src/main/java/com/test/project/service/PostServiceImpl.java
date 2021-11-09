@@ -9,6 +9,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.awt.desktop.OpenFilesEvent;
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
@@ -27,27 +30,21 @@ public class PostServiceImpl implements PostService {
     public PostDto update(PostDto postDto) {
         Post post = mapper.map(postDto, Post.class);
         Post response = postRepository.update(post);
-        if (response != null) {
-            return mapper.map(response, PostDto.class);
-        }
-        return null;
+        Optional<Post> responseOpt = Optional.of(response);
+        return mapper.map(responseOpt.orElse(null),PostDto.class);
     }
 
     @Override
     public PostDto read(Long id) {
         Post response = postRepository.read(id);
-        if (response != null) {
-            return mapper.map(response, PostDto.class);
-        }
-        return null;
+        Optional<Post> responseOpt = Optional.of(response);
+        return mapper.map(responseOpt.orElse(null),PostDto.class);
     }
 
     @Override
     public PostDto delete(Long id) {
         Post response = postRepository.delete(id);
-        if (response != null) {
-            return mapper.map(response, PostDto.class);
-        }
-        return null;
+        Optional<Post> responseOpt = Optional.of(response);
+        return mapper.map(responseOpt.orElse(null),PostDto.class);
     }
 }

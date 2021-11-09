@@ -14,8 +14,8 @@ public class PostRepositoryImpl implements PostRepository {
     private final List<Post> posts= new ArrayList<>();
 
 
-    public Optional<Post> getById(Long id){
-        return posts.stream().filter(s->s.getId().equals(id)).findFirst();
+    public Post getById(Long id){
+        return posts.stream().filter(s->s.getId().equals(id)).findFirst().orElse(null);
     }
 
     @Override
@@ -38,12 +38,12 @@ public class PostRepositoryImpl implements PostRepository {
 
     @Override
     public Post read(Long id) {
-        return getById(id).orElse(null);
+        return getById(id);
     }
 
     @Override
     public Post delete(Long id) {
-        Optional<Post> post= getById(id);
+        Optional<Post> post= Optional.of(getById(id));
         return post.orElse(null);
     }
 }

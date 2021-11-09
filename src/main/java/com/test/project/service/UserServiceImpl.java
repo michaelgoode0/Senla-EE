@@ -2,11 +2,15 @@ package com.test.project.service;
 
 import com.test.project.api.service.UserService;
 import com.test.project.dto.UserDto;
+import com.test.project.dto.UserProfileDto;
 import com.test.project.entity.User;
 import com.test.project.dao.UserRepositoryImpl;
+import com.test.project.entity.UserProfile;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,28 +30,22 @@ public class UserServiceImpl implements UserService {
     public UserDto update(UserDto userDto) {
         User user = mapper.map(userDto, User.class);
         User response = userRepository.update(user);
-        if (response != null) {
-            return mapper.map(response, UserDto.class);
-        }
-        return null;
+        Optional<User> responseOpt = Optional.of(response);
+        return mapper.map(responseOpt.orElse(null), UserDto.class);
     }
 
     @Override
     public UserDto read(Long id) {
         User response = userRepository.read(id);
-        if (response != null) {
-            return mapper.map(response, UserDto.class);
-        }
-        return null;
+        Optional<User> responseOpt = Optional.of(response);
+        return mapper.map(responseOpt.orElse(null), UserDto.class);
     }
 
     @Override
     public UserDto delete(Long id) {
         User response=userRepository.delete(id);
-        if (response != null) {
-            return mapper.map(response, UserDto.class);
-        }
-        return null;
+        Optional<User> responseOpt = Optional.of(response);
+        return mapper.map(responseOpt.orElse(null), UserDto.class);
     }
 
 }
