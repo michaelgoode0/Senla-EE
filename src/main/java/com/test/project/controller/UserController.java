@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.project.api.service.UserService;
 import com.test.project.dto.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,9 +16,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
+    private Logger logger= LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
-    @Autowired
+
     private final ObjectMapper objectMapper;
 
     public String create(String requestJson) {
@@ -27,6 +29,7 @@ public class UserController {
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            logger.error("JsonProcessingException" + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -39,6 +42,7 @@ public class UserController {
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            logger.error("JsonProcessingException" + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -49,6 +53,7 @@ public class UserController {
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            logger.error("JsonProcessingException" + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -59,6 +64,7 @@ public class UserController {
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            logger.error("JsonProcessingException" + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -67,6 +73,7 @@ public class UserController {
             return objectMapper.writeValueAsString(userDto);
         }catch (JsonProcessingException e){
             e.printStackTrace();
+            logger.error("JsonProcessingException" + e.getMessage());
             throw new RuntimeException(e);
         }
     }

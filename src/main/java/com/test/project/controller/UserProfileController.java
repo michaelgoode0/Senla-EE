@@ -5,16 +5,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.project.dto.UserProfileDto;
 import com.test.project.service.UserProfileServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 
 @Component
 @RequiredArgsConstructor
 public class UserProfileController {
 
-    @Autowired
+    private Logger logger= LoggerFactory.getLogger(UserProfileController.class);
     private final UserProfileServiceImpl userProfileService;
-    @Autowired
+
     private final ObjectMapper objectMapper;
 
 
@@ -26,6 +29,7 @@ public class UserProfileController {
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            logger.error("JsonProcessingException" + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -38,6 +42,7 @@ public class UserProfileController {
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            logger.error("JsonProcessingException" + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -48,6 +53,7 @@ public class UserProfileController {
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            logger.error("JsonProcessingException" + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -58,6 +64,7 @@ public class UserProfileController {
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            logger.error("JsonProcessingException" + e.getMessage());
             throw new RuntimeException(e);
         }
     }

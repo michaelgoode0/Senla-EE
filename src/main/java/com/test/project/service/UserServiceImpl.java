@@ -6,16 +6,13 @@ import com.test.project.entity.User;
 import com.test.project.dao.UserRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @Autowired
     private final UserRepositoryImpl userRepository;
-    @Autowired
     private final ModelMapper mapper;
 
     @Override

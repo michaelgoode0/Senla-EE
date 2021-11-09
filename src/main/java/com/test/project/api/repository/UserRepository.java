@@ -7,7 +7,4 @@ public interface UserRepository {
     User update(User user);
     User read(Long id);
     User delete(Long id);
-    User getById(Long id);
-
-
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -17,13 +18,8 @@ public class UserRepositoryImpl implements UserRepository {
         return listOfUsers;
     }
 
-    public User getById(Long id){
-        for(User user: listOfUsers){
-            if(user.getId().equals(id)){
-                return user;
-            }
-        }
-        return null;
+    public Optional<User> getById(Long id){
+        return listOfUsers.stream().filter(s->s.getId().equals(id)).findFirst();
     }
 
     @Override
@@ -34,10 +30,10 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User update(User user) {
-        for (User i : getListOfUsers()) {
+        for (User i : listOfUsers) {
             if (i.getId().equals(user.getId())) {
-                int index = getListOfUsers().indexOf(i);
-                getListOfUsers().set(index, user);
+                int index = listOfUsers.indexOf(i);
+                listOfUsers.set(index, user);
                 return user;
             }
         }
@@ -46,17 +42,13 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User read(Long id) {
-        return getById(id);
+        return getById(id).orElse(null);
     }
 
     @Override
     public User delete(Long id) {
-        User user= getById(id);
-        if(user==null) {
-            return null;
-        }
-        getListOfUsers().remove(user);
-        return user;
-
+        Optional<User> user= getById(id);
+        listOfUsers.remove(user.orElse(null));
+        return user.orElse(null);
     }
 }

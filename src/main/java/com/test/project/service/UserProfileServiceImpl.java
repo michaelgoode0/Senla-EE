@@ -13,9 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserProfileServiceImpl implements UserProfileService {
 
-    @Autowired
     private final UserProfileRepositoryImpl userProfileRepository;
-    @Autowired
     private final ModelMapper mapper;
 
     @Override

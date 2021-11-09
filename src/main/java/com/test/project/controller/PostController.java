@@ -5,15 +5,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.project.dto.PostDto;
 import com.test.project.service.PostServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class PostController {
-    @Autowired
+
+    private Logger logger= LoggerFactory.getLogger(PostController.class);
     private final PostServiceImpl postService;
-    @Autowired
+
     private final ObjectMapper objectMapper;
 
     public String create(String requestJson) {
@@ -24,6 +27,7 @@ public class PostController {
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            logger.error("JsonProcessingException" + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -36,6 +40,7 @@ public class PostController {
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            logger.error("JsonProcessingException" + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -46,6 +51,7 @@ public class PostController {
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            logger.error("JsonProcessingException" + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -56,6 +62,7 @@ public class PostController {
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            logger.error("JsonProcessingException" + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -64,6 +71,7 @@ public class PostController {
             return objectMapper.writeValueAsString(postDto);
         }catch (JsonProcessingException e){
             e.printStackTrace();
+            logger.error("JsonProcessingException" + e.getMessage());
             throw new RuntimeException(e);
         }
     }
