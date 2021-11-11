@@ -31,21 +31,27 @@ public class UserProfileServiceImpl implements UserProfileService {
     public UserProfileDto update(UserProfileDto userProfileDto) {
         UserProfile user = mapper.map(userProfileDto, UserProfile.class);
         UserProfile response = userProfileRepository.update(user);
-        Optional<UserProfile> responseOpt = Optional.of(response);
-        return mapper.map(responseOpt.orElse(null), UserProfileDto.class);
+        if(response!=null){
+            return mapper.map(response,UserProfileDto.class);
+        }
+        return null;
     }
 
     @Override
     public UserProfileDto read(Long id) {
         UserProfile response = userProfileRepository.read(id);
-        Optional<UserProfile> responseOpt = Optional.of(response);
-        return mapper.map(responseOpt.orElse(null), UserProfileDto.class);
+        if(response!=null){
+            return mapper.map(response,UserProfileDto.class);
+        }
+        return null;
     }
 
     @Override
     public UserProfileDto delete(Long id) {
         UserProfile response=userProfileRepository.delete(id);
-        Optional<UserProfile> responseOpt = Optional.of(response);
-        return mapper.map(responseOpt.orElse(null), UserProfileDto.class);
+        if(response!=null){
+            return mapper.map(response,UserProfileDto.class);
+        }
+        return null;
     }
 }

@@ -13,8 +13,8 @@ public class UserRepositoryImpl implements UserRepository {
 
     private final List<User> listOfUsers= new ArrayList<>();
 
-    public User getById(Long id){
-        return listOfUsers.stream().filter(s->s.getId().equals(id)).findFirst().orElse(null);
+    public Optional<User> getById(Long id){
+        return listOfUsers.stream().filter(s->s.getId().equals(id)).findFirst();
     }
 
     @Override
@@ -37,12 +37,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User read(Long id) {
-        return getById(id);
+        return getById(id).orElse(null);
     }
 
     @Override
     public User delete(Long id) {
-        Optional<User> user= Optional.of(getById(id));
+        Optional<User> user= getById(id);
         listOfUsers.remove(user.orElse(null));
         return user.orElse(null);
     }

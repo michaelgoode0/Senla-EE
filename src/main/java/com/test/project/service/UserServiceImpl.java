@@ -30,22 +30,28 @@ public class UserServiceImpl implements UserService {
     public UserDto update(UserDto userDto) {
         User user = mapper.map(userDto, User.class);
         User response = userRepository.update(user);
-        Optional<User> responseOpt = Optional.of(response);
-        return mapper.map(responseOpt.orElse(null), UserDto.class);
+        if(response!=null){
+            return mapper.map(response,UserDto.class);
+        }
+        return null;
     }
 
     @Override
     public UserDto read(Long id) {
         User response = userRepository.read(id);
-        Optional<User> responseOpt = Optional.of(response);
-        return mapper.map(responseOpt.orElse(null), UserDto.class);
+        if(response!=null){
+            return mapper.map(response,UserDto.class);
+        }
+        return null;
     }
 
     @Override
     public UserDto delete(Long id) {
         User response=userRepository.delete(id);
-        Optional<User> responseOpt = Optional.of(response);
-        return mapper.map(responseOpt.orElse(null), UserDto.class);
+        if(response!=null){
+            return mapper.map(response,UserDto.class);
+        }
+        return null;
     }
 
 }

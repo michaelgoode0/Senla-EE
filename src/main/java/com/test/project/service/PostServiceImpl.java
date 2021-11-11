@@ -30,21 +30,27 @@ public class PostServiceImpl implements PostService {
     public PostDto update(PostDto postDto) {
         Post post = mapper.map(postDto, Post.class);
         Post response = postRepository.update(post);
-        Optional<Post> responseOpt = Optional.of(response);
-        return mapper.map(responseOpt.orElse(null),PostDto.class);
+        if(response!=null){
+            return mapper.map(response,PostDto.class);
+        }
+        return null;
     }
 
     @Override
     public PostDto read(Long id) {
         Post response = postRepository.read(id);
-        Optional<Post> responseOpt = Optional.of(response);
-        return mapper.map(responseOpt.orElse(null),PostDto.class);
+        if(response!=null){
+            return mapper.map(response,PostDto.class);
+        }
+        return null;
     }
 
     @Override
     public PostDto delete(Long id) {
         Post response = postRepository.delete(id);
-        Optional<Post> responseOpt = Optional.of(response);
-        return mapper.map(responseOpt.orElse(null),PostDto.class);
+        if(response!=null){
+            return mapper.map(response,PostDto.class);
+        }
+        return null;
     }
 }
