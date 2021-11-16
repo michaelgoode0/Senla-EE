@@ -19,7 +19,7 @@
         </encoder>
     </appender>
 
-    <root level="Error">
+    <root level="Debug">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </root>

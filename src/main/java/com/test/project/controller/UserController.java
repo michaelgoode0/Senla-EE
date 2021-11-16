@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UserController {
 
-    private Logger logger= LoggerFactory.getLogger(UserController.class);
+    private final Logger logger= LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
 
     private final ObjectMapper objectMapper;

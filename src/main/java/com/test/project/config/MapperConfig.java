@@ -7,8 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan({"com.test.project.dao","com.test.project.service","com.test.project.controller"})
-public class Config {
+@ComponentScan({"com.test.project.dao","com.test.project.service","com.test.project.controller","com.test.project.annotation","com.test.project.aspect"})
+public class MapperConfig {
     @Bean
     public ModelMapper mapper(){
         return new ModelMapper();
@@ -18,5 +18,4 @@ public class Config {
     public ObjectMapper objectMapper(){
         return  new ObjectMapper();
     }
-
 }

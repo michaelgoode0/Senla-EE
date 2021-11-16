@@ -2,6 +2,7 @@ package com.test.project.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.test.project.api.service.PostService;
 import com.test.project.dto.PostDto;
 import com.test.project.service.PostServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class PostController {
 
     private Logger logger= LoggerFactory.getLogger(PostController.class);
-    private final PostServiceImpl postService;
+    private final PostService postService;
 
     private final ObjectMapper objectMapper;
 
@@ -26,7 +27,6 @@ public class PostController {
             String responseJson = objectMapper.writeValueAsString(response);
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
             logger.error("JsonProcessingException" + e.getMessage());
             throw new RuntimeException(e);
         }
