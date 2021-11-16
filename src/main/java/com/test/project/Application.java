@@ -36,16 +36,16 @@ public class Application {
         userProfileController.create(jsonStringUserProfile1);
         userProfileController.delete(2L);
 
-        String jsonStringPost= "{\"id\":1,\"text\":\"Hello there\"}";
+        String jsonStringPost= "{\"id\":4,\"text\":\"Hello there\"}";
         postController.create(jsonStringPost);
-        System.out.println(postController.read(1L));
-        String updatePost= "{\"id\":1,\"text\":\"Bye Bye\" }";
+        System.out.println(postController.read(4L));
+        String updatePost= "{\"id\":4,\"text\":\"Bye Bye\" }";
         postController.update(updatePost);
 
 
-        String jsonStringPost1= "{\"id\":2,\"text\":\"Hello again\" }";
+        String jsonStringPost1= "{\"id\":3,\"text\":\"Hello again\" }";
         postController.create(jsonStringPost1);
-        System.out.println(postController.read(2L));
-        postController.delete(2L);
+        System.out.println(postController.read(3L));
+        postController.delete(3L);
     }
 }

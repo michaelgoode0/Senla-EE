@@ -1,6 +1,7 @@
 package com.test.project.service;
 
 import com.test.project.annotation.Transaction;
+import com.test.project.api.repository.PostRepository;
 import com.test.project.api.service.PostService;
 import com.test.project.dto.PostDto;
 import com.test.project.entity.Post;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
-    private final PostRepositoryImpl postRepository;
+    private final PostRepository postRepository;
     private final ModelMapper mapper;
 
     @Override

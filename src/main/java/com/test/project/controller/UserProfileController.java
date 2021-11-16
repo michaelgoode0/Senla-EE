@@ -2,6 +2,7 @@ package com.test.project.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.test.project.api.service.UserProfileService;
 import com.test.project.dto.UserProfileDto;
 import com.test.project.service.UserProfileServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class UserProfileController {
 
     private Logger logger= LoggerFactory.getLogger(UserProfileController.class);
-    private final UserProfileServiceImpl userProfileService;
+    private final UserProfileService userProfileService;
 
     private final ObjectMapper objectMapper;
 
