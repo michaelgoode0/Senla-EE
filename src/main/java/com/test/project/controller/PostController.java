@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.project.api.service.PostService;
 import com.test.project.dto.PostDto;
+import com.test.project.exceptions.GlobalException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -26,8 +27,8 @@ public class PostController {
             String responseJson = objectMapper.writeValueAsString(response);
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
-            log.error("JsonProcessingException" + e.getMessage());
-            throw new RuntimeException(e);
+            log.error("JsonProcessingException" + e.getMessage(),e);
+            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
     }
 
@@ -39,8 +40,8 @@ public class PostController {
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            log.error("JsonProcessingException" + e.getMessage());
-            throw new RuntimeException(e);
+            log.error("JsonProcessingException" + e.getMessage(),e);
+            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
     }
     public String read(Long id){
@@ -50,8 +51,8 @@ public class PostController {
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            log.error("JsonProcessingException" + e.getMessage());
-            throw new RuntimeException(e);
+            log.error("JsonProcessingException" + e.getMessage(),e);
+            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
     }
     public String delete(Long id){
@@ -61,8 +62,8 @@ public class PostController {
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            log.error("JsonProcessingException" + e.getMessage());
-            throw new RuntimeException(e);
+            log.error("JsonProcessingException" + e.getMessage(),e);
+            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
     }
     public String mapToJson(PostDto postDto) {
@@ -70,8 +71,8 @@ public class PostController {
             return objectMapper.writeValueAsString(postDto);
         }catch (JsonProcessingException e){
             e.printStackTrace();
-            log.error("JsonProcessingException" + e.getMessage());
-            throw new RuntimeException(e);
+            log.error("JsonProcessingException" + e.getMessage(),e);
+            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
     }
 }
