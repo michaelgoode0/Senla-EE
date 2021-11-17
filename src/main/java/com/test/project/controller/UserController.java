@@ -5,18 +5,20 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.project.api.service.UserService;
 import com.test.project.dto.UserDto;
+import com.test.project.exceptions.GlobalException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
 
-    private final Logger logger= LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
 
     private final ObjectMapper objectMapper;
@@ -28,9 +30,8 @@ public class UserController {
             String responseJson = objectMapper.writeValueAsString(response);
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            logger.error("JsonProcessingException" + e.getMessage());
-            throw new RuntimeException(e);
+            log.error("JsonProcessingException" + e.getMessage(),e);
+            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
     }
 
@@ -41,9 +42,8 @@ public class UserController {
             String responseJson = objectMapper.writeValueAsString(response);
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            logger.error("JsonProcessingException" + e.getMessage());
-            throw new RuntimeException(e);
+            log.error("JsonProcessingException" + e.getMessage(),e);
+            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
     }
     public String read(Long id){
@@ -52,9 +52,8 @@ public class UserController {
             String responseJson = objectMapper.writeValueAsString(response);
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            logger.error("JsonProcessingException" + e.getMessage());
-            throw new RuntimeException(e);
+            log.error("JsonProcessingException" + e.getMessage(),e);
+            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
     }
     public String delete(Long id){
@@ -63,18 +62,16 @@ public class UserController {
             String responseJson = objectMapper.writeValueAsString(response);
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            logger.error("JsonProcessingException" + e.getMessage());
-            throw new RuntimeException(e);
+            log.error("JsonProcessingException" + e.getMessage(),e);
+            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
     }
     public String mapToJson(UserDto userDto) {
         try {
             return objectMapper.writeValueAsString(userDto);
         }catch (JsonProcessingException e){
-            e.printStackTrace();
-            logger.error("JsonProcessingException" + e.getMessage());
-            throw new RuntimeException(e);
+            log.error("JsonProcessingException" + e.getMessage(),e);
+            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
     }
 

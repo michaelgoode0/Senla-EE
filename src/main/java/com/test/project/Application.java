@@ -1,5 +1,6 @@
 package com.test.project;
 
+import com.test.project.config.JdbcConfig;
 import com.test.project.controller.PostController;
 import com.test.project.controller.UserController;
 import com.test.project.controller.UserProfileController;
@@ -8,7 +9,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class Application {
     public static void main(String[] args) {
-        ApplicationContext context = new AnnotationConfigApplicationContext("com.test.project");
+        ApplicationContext context = new AnnotationConfigApplicationContext(JdbcConfig.class);
         UserController userController = context.getBean(UserController.class);
         UserProfileController userProfileController = context.getBean(UserProfileController.class);
         PostController postController = context.getBean(PostController.class);
@@ -36,16 +37,16 @@ public class Application {
         userProfileController.create(jsonStringUserProfile1);
         userProfileController.delete(2L);
 
-        String jsonStringPost= "{\"id\":4,\"text\":\"Hello there\"}";
+        String jsonStringPost= "{\"id\":1,\"text\":\"Hello there\"}";
         postController.create(jsonStringPost);
-        System.out.println(postController.read(4L));
-        String updatePost= "{\"id\":4,\"text\":\"Bye Bye\" }";
+        System.out.println(postController.read(1L));
+        String updatePost= "{\"id\":1,\"text\":\"Bye Bye\" }";
         postController.update(updatePost);
+        System.out.println(postController.read(1L));
 
 
-        String jsonStringPost1= "{\"id\":3,\"text\":\"Hello again\" }";
+        String jsonStringPost1= "{\"id\":2,\"text\":\"Hello again\" }";
         postController.create(jsonStringPost1);
-        System.out.println(postController.read(3L));
-        postController.delete(3L);
+        postController.delete(2L);
     }
 }

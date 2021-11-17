@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 @Configuration
 @PropertySource("classpath:application.properties")
-@ComponentScan({"com.test.project.dao","com.test.project.service","com.test.project.controller","com.test.project.annotation","com.test.project.aspect"})
+@ComponentScan({"com.test.project.dao","com.test.project.service","com.test.project.controller","com.test.project.aspect","com.test.project.config"})
 @EnableAspectJAutoProxy
 public class JdbcConfig {
 
@@ -24,7 +24,7 @@ public class JdbcConfig {
     @Value(value = "${driver}")
     private String driver;
 
-    @Bean
+    @Bean(destroyMethod = "close")
     public Connection connection() {
         Connection connection = null;
         try {
