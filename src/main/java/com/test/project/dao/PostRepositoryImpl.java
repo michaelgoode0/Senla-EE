@@ -74,7 +74,7 @@ public class PostRepositoryImpl  implements  PostRepository {
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException e) {
-            log.error("SqlException" + e.getMessage());
+            log.error("SqlException" + e.getMessage(),e);
             throw new GlobalException("SqlException" + e.getMessage(),e);
         }
         return post;
