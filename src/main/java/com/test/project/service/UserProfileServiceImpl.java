@@ -1,5 +1,6 @@
 package com.test.project.service;
 
+import com.test.project.api.repository.UserProfileRepository;
 import com.test.project.api.service.UserProfileService;
 import com.test.project.dto.PostDto;
 import com.test.project.dto.UserProfileDto;
@@ -17,7 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserProfileServiceImpl implements UserProfileService {
 
-    private final UserProfileRepositoryImpl userProfileRepository;
+    private final UserProfileRepository userProfileRepository;
     private final ModelMapper mapper;
 
     @Override

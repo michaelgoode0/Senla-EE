@@ -1,25 +1,24 @@
 package com.test.project.service;
 
+import com.test.project.annotation.Transaction;
+import com.test.project.api.repository.PostRepository;
 import com.test.project.api.service.PostService;
 import com.test.project.dto.PostDto;
 import com.test.project.entity.Post;
 import com.test.project.dao.PostRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import java.awt.desktop.OpenFilesEvent;
-import java.util.Optional;
-
-@Component
+@Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
-    private final PostRepositoryImpl postRepository;
+    private final PostRepository postRepository;
     private final ModelMapper mapper;
 
     @Override
+    @Transaction
     public PostDto create(PostDto postDto) {
         Post post = mapper.map(postDto, Post.class);
         Post response = postRepository.create(post);
@@ -27,6 +26,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transaction
     public PostDto update(PostDto postDto) {
         Post post = mapper.map(postDto, Post.class);
         Post response = postRepository.update(post);
@@ -37,6 +37,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transaction
     public PostDto read(Long id) {
         Post response = postRepository.read(id);
         if(response!=null){
@@ -46,6 +47,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transaction
     public PostDto delete(Long id) {
         Post response = postRepository.delete(id);
         if(response!=null){
