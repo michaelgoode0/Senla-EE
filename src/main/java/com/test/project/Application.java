@@ -25,7 +25,6 @@ public class Application {
 
         String jsonStringUser1 = "{\"email\":\"@mail.ru\", \"password\": \"324fg131\",\"profile\": null}";
         userController.create(jsonStringUser1);
-        userController.delete(2L);
 
 
         String jsonStringUserProfile = "{\"name\":\"Daniel\", \"posts\": null }";

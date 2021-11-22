@@ -36,7 +36,9 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
     @Override
     public T delete(Long entityId) {
         final T entity = read(entityId);
-        entityManager.remove(entity);
+        if(entity!=null) {
+            entityManager.remove(entity);
+        }
         return entity;
     }
 }
