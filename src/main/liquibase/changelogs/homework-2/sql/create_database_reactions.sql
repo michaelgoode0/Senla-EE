@@ -1,6 +1,6 @@
 CREATE TABLE reactions (
     id bigint NOT NULL,
-    reaction bit,
+    reaction boolean,
     user_profile_id bigint,
     post_id bigint,
     FOREIGN key (user_profile_id) REFERENCES users_profiles(id),

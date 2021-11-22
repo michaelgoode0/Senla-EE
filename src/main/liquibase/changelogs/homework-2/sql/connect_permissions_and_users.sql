@@ -1,7 +1,7 @@
-CREATE TABLE users_permissions (
-    users_id bigint,
-    permissions_id bigint,
-    primary key(users_id,permissions_id),
-    FOREIGN key (users_id) REFERENCES users(id),
-    FOREIGN key (permissions_id) REFERENCES permissions(id)
+CREATE TABLE users_roles (
+    user_id bigint,
+    role_id bigint,
+    primary key(user_id,role_id),
+    FOREIGN key (user_id) REFERENCES users(id),
+    FOREIGN key (role_id) REFERENCES roles(id)
 );

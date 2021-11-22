@@ -1,83 +1,69 @@
 package com.test.project.dao;
 
+import com.test.project.util.AbstractDao;
 import com.test.project.api.repository.PostRepository;
 import com.test.project.entity.Post;
-import com.test.project.exceptions.GlobalException;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.persistence.EntityGraph;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
+import java.util.HashMap;
+import java.util.Map;
 
 @Repository
-@RequiredArgsConstructor
 @Slf4j
-public class PostRepositoryImpl  implements  PostRepository {
+public class PostRepositoryImpl extends AbstractDao<Post> implements PostRepository {
 
-    private final Connection connection;
 
-    @Override
-    public Post create(Post post) {
-        String sql="INSERT INTO posts" + "  (id, text) VALUES "
-                + " (?, ?);";
-        try (PreparedStatement statement =connection.prepareStatement(sql)){
-            statement.setLong(1, post.getId());
-            statement.setString(2, post.getText());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            log.error("SqlException" + e.getMessage(),e);
-            throw new GlobalException("SqlException" + e.getMessage(),e);
-        }
-        return post;
+    public Post getPostJpql(Long id){
+       return (Post) entityManager.createQuery("select p from Post p where p.id=:id")
+                .setParameter("id",id)
+                .getSingleResult();
     }
-    @Override
-    public Post update(Post post) {
-        String sql="update posts set text= ? where id = ?;";;
-        try (PreparedStatement statement =connection.prepareStatement(sql)) {
-            statement.setString(1, post.getText());
-            statement.setLong(2, post.getId());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            log.error("SqlException" + e.getMessage(),e);
-            throw new GlobalException("SqlException" + e.getMessage(),e);
-        }
+
+    public Post getPostCriteria(Long  id){
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery q = cb.createQuery(Post.class);
+        Root o = q.from(Post.class);
+        o.fetch("profile", JoinType.INNER);
+        q.select(o);
+        q.where(cb.equal(o.get("id"), id));
+
+        Post post = (Post)entityManager.createQuery(q).getSingleResult();
         return post;
     }
 
-  @Override
+    @Override
+    public Post getPostGraph(Long id){
+        EntityGraph graph = entityManager.getEntityGraph("graph.Post.profile");
+
+        Map hints = new HashMap();
+        hints.put("javax.persistence.fetchgraph", graph);
+
+        Post post = entityManager.find(Post.class, id, hints);
+        return post;
+    }
+    @Override
+    public Post create(Post entity) {
+        return super.create(entity);
+    }
+
+    @Override
+    public Post update(Post entity) {
+        return super.update(entity);
+    }
+
+    @Override
     public Post read(Long id) {
-        String sql="select id,text from posts where id =?";
-        Post post = new Post();
-        try(PreparedStatement statement =connection.prepareStatement(sql))  {
-            statement.setLong(1, id);
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                post.setId(rs.getLong("id"));
-                post.setText(rs.getString("text"));
-            }
-        } catch (SQLException e) {
-            log.error("SqlException" + e.getMessage());
-            throw new GlobalException("SqlException" + e.getMessage(),e);
-        }
-        return post;
-    }
-    @Override
-    public Post delete(Long id) {
-        Post post=read(id);
-        String sql="DELETE FROM users WHERE id = ?";
-        try(PreparedStatement statement =connection.prepareStatement(sql)) {
-            statement.setLong(1, id);
-            statement.execute();
-        } catch (SQLException e) {
-            log.error("SqlException" + e.getMessage(),e);
-            throw new GlobalException("SqlException" + e.getMessage(),e);
-        }
-        return post;
+        return super.read(id);
     }
 
+    @Override
+    public Post delete(Long entityId) {
+        return super.delete(entityId);
+    }
 }

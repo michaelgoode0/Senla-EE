@@ -10,6 +10,7 @@ import com.test.project.entity.UserProfile;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper mapper;
 
     @Override
+    @Transactional
     public UserDto create(UserDto userDto) {
         User user = mapper.map(userDto, User.class);
         User response = userRepository.create(user);
@@ -28,6 +30,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDto update(UserDto userDto) {
         User user = mapper.map(userDto, User.class);
         User response = userRepository.update(user);
@@ -38,7 +41,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDto read(Long id) {
+        userRepository.setClazz(User.class);
         User response = userRepository.read(id);
         if(response!=null){
             return mapper.map(response,UserDto.class);
@@ -47,6 +52,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDto delete(Long id) {
         User response=userRepository.delete(id);
         if(response!=null){
