@@ -10,15 +10,10 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
     @PersistenceContext
     protected EntityManager entityManager;
 
-    private Class<T> clazz;
+    private final Class<T> clazz;
 
     public AbstractDao(){
-        setClazz(getGenericEntityClass());
-    }
-
-    @Override
-    public void setClazz(Class<T> clazzToSet) {
-        this.clazz=clazzToSet;
+        this.clazz=getGenericEntityClass();
     }
 
     @Override

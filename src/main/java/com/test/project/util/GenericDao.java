@@ -12,6 +12,5 @@ public interface GenericDao<T> {
 
     T read(final Long id);
 
-    void setClazz(Class<T> clazzToSet);
 
 }
