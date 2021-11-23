@@ -39,7 +39,6 @@ public class PostController {
             String responseJson = objectMapper.writeValueAsString(response);
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
             log.error("JsonProcessingException" + e.getMessage(),e);
             throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
@@ -50,7 +49,6 @@ public class PostController {
             String responseJson = objectMapper.writeValueAsString(response);
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
             log.error("JsonProcessingException" + e.getMessage(),e);
             throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
@@ -61,7 +59,6 @@ public class PostController {
             String responseJson = objectMapper.writeValueAsString(response);
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
             log.error("JsonProcessingException" + e.getMessage(),e);
             throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
@@ -72,7 +69,6 @@ public class PostController {
             String responseJson = objectMapper.writeValueAsString(response);
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
             log.error("JsonProcessingException" + e.getMessage(),e);
             throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
@@ -83,7 +79,6 @@ public class PostController {
             String responseJson = objectMapper.writeValueAsString(response);
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
             log.error("JsonProcessingException" + e.getMessage(),e);
             throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
@@ -94,7 +89,6 @@ public class PostController {
             String responseJson = objectMapper.writeValueAsString(response);
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
             log.error("JsonProcessingException" + e.getMessage(),e);
             throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
@@ -103,7 +97,6 @@ public class PostController {
         try {
             return objectMapper.writeValueAsString(postDto);
         }catch (JsonProcessingException e){
-            e.printStackTrace();
             log.error("JsonProcessingException" + e.getMessage(),e);
             throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }

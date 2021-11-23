@@ -44,7 +44,6 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     @Transactional
     public UserProfileDto read(Long id) {
-        userProfileRepository.setClazz(UserProfile.class);
         UserProfile response = userProfileRepository.read(id);
         if(response!=null){
             return mapper.map(response,UserProfileDto.class);

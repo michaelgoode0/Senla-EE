@@ -2,6 +2,7 @@ package com.test.project.util;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.lang.reflect.ParameterizedType;
 
 
 public abstract class AbstractDao<T> implements GenericDao<T> {
@@ -10,6 +11,10 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
     protected EntityManager entityManager;
 
     private Class<T> clazz;
+
+    public AbstractDao(){
+        setClazz(getGenericEntityClass());
+    }
 
     @Override
     public void setClazz(Class<T> clazzToSet) {
@@ -41,4 +46,10 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
         }
         return entity;
     }
+    private Class<T> getGenericEntityClass() {
+        ParameterizedType parameterizedType = (ParameterizedType) getClass()
+                .getGenericSuperclass();
+        return (Class<T>) parameterizedType.getActualTypeArguments()[0];
+    }
+
 }

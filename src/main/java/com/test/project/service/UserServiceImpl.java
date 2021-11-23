@@ -43,7 +43,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDto read(Long id) {
-        userRepository.setClazz(User.class);
         User response = userRepository.read(id);
         if(response!=null){
             return mapper.map(response,UserDto.class);

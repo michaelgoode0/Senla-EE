@@ -20,7 +20,7 @@ public class PostRepositoryImpl extends AbstractDao<Post> implements PostReposit
 
     @Override
     public Post getPostJpql(Long id){
-       return (Post) entityManager.createQuery("select p from Post p where p.id=:id")
+       return  entityManager.createQuery("select p from Post p where p.id=:id",Post.class)
                 .setParameter("id",id)
                 .getSingleResult();
     }
@@ -47,24 +47,5 @@ public class PostRepositoryImpl extends AbstractDao<Post> implements PostReposit
 
         Post post = entityManager.find(Post.class, id, hints);
         return post;
-    }
-    @Override
-    public Post create(Post entity) {
-        return super.create(entity);
-    }
-
-    @Override
-    public Post update(Post entity) {
-        return super.update(entity);
-    }
-
-    @Override
-    public Post read(Long id) {
-        return super.read(id);
-    }
-
-    @Override
-    public Post delete(Long entityId) {
-        return super.delete(entityId);
     }
 }

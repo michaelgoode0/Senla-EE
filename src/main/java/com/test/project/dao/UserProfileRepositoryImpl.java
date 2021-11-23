@@ -7,24 +7,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class UserProfileRepositoryImpl extends AbstractDao<UserProfile> implements UserProfileRepository {
-
-    @Override
-    public UserProfile create(UserProfile entity) {
-        return super.create(entity);
-    }
-
-    @Override
-    public UserProfile update(UserProfile entity) {
-        return super.update(entity);
-    }
-
-    @Override
-    public UserProfile read(Long id) {
-        return super.read(id);
-    }
-
-    @Override
-    public UserProfile delete(Long entityId) {
-        return super.delete(entityId);
-    }
 }
