@@ -26,7 +26,6 @@ public class UserProfile {
     @JoinColumn(name = "users_id")
     private User user;
     @OneToMany(mappedBy = "profile",fetch = FetchType.LAZY)
-    @JsonBackReference
     private List<Post> posts;
     @OneToOne(mappedBy = "profile",fetch = FetchType.LAZY)
     private Reaction reaction;
