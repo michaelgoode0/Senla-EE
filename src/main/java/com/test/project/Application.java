@@ -15,7 +15,6 @@ public class Application {
         PostController postController = context.getBean(PostController.class);
 
 
-
         String jsonStringUser = "{\"email\":\"Name1\", \"password\": \"32131\",\"profile\": null }";
         userController.create(jsonStringUser);
         System.out.println(userController.read(1L));
@@ -30,7 +29,7 @@ public class Application {
         String jsonStringUserProfile = "{\"name\":\"Daniel\", \"posts\": null }";
         userProfileController.create(jsonStringUserProfile);
         System.out.println(userProfileController.read(1L));
-        String updateProfile="{\"id\":1,\"name\":\"Alexey\", \"posts\": null }";
+        String updateProfile="{\"name\":\"Alexey\", \"posts\": null }";
         userProfileController.update(updateProfile);
         System.out.println(userProfileController.read(1L));
 
@@ -38,14 +37,13 @@ public class Application {
 
         String jsonStringUserProfile1 = "{\"name\":\"Ilya\", \"posts\": null }";
         userProfileController.create(jsonStringUserProfile1);
-        userProfileController.delete(2L);
+        userProfileController.delete(3L);
 
         String jsonStringPost3= "{\"text\":\"Hello there1\",\"profile\": {\"id\":1} }";
         postController.create(jsonStringPost3);
-        String updatePost= "{\"id\":1,\"text\":\"Bye Bye\",\"profile\": {\"id\":1} }";
+        String updatePost= "{\"id\":1,\"text\":\"Bye\",\"profile\": {\"id\":1} }";
         postController.update(updatePost);
         System.out.println(postController.read(1L));
-        System.out.println(postController.getCriteria(1L));
         System.out.println(postController.getGraph(1L));
         System.out.println(postController.getJpql(1L));
 

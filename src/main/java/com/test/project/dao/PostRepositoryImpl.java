@@ -18,13 +18,14 @@ import java.util.Map;
 @Slf4j
 public class PostRepositoryImpl extends AbstractDao<Post> implements PostRepository {
 
-
+    @Override
     public Post getPostJpql(Long id){
        return (Post) entityManager.createQuery("select p from Post p where p.id=:id")
                 .setParameter("id",id)
                 .getSingleResult();
     }
 
+    @Override
     public Post getPostCriteria(Long  id){
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery q = cb.createQuery(Post.class);

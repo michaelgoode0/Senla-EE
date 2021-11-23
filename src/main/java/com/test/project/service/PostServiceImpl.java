@@ -51,6 +51,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public PostDto delete(Long id) {
+        postRepository.setClazz(Post.class);
         Post response = postRepository.delete(id);
         if(response!=null){
             return mapper.map(response,PostDto.class);

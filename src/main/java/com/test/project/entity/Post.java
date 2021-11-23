@@ -1,6 +1,8 @@
 package com.test.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +24,6 @@ public class Post {
     private Long id;
     private String text;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
     @JoinColumn(name = "users_profiles_id")
     private UserProfile profile;
     @OneToMany(mappedBy = "post",fetch = FetchType.LAZY)
