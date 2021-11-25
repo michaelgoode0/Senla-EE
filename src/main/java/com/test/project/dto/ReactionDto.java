@@ -4,9 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
-public class UserDto {
+public class ReactionDto {
+
     private Long id;
-    private String email;
-    private String password;
+    private Boolean reaction;
     private UserProfileDto profile;
+    private PostDto post;
 }

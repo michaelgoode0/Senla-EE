@@ -1,5 +1,5 @@
 CREATE TABLE users_profiles (
-    id bigint not null,
+    id bigserial not null,
     name character varying(255),
     users_id bigint,
     FOREIGN KEY (users_id) REFERENCES users(id),

@@ -1,10 +1,7 @@
 package com.test.project.api.repository;
 
+import com.test.project.util.GenericDao;
 import com.test.project.entity.User;
 
-public interface UserRepository {
-    User create(User user);
-    User update(User user);
-    User read(Long id);
-    User delete(Long id);
+public interface UserRepository extends GenericDao<User> {
 }

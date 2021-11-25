@@ -1,2 +1,2 @@
-Create index permissions_id
-on users_permissions(permissions_id);
+Create index roles_id
+on users_roles(role_id);

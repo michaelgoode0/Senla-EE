@@ -1,5 +1,5 @@
 CREATE TABLE posts (
-    id bigint NOT NULL,
+    id bigserial NOT NULL,
     comments_count bigint,
     likes_count bigint,
     users_profiles_id bigint,

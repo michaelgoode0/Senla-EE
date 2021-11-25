@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -22,6 +23,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     private final ModelMapper mapper;
 
     @Override
+    @Transactional
     public UserProfileDto create(UserProfileDto userProfileDto) {
         UserProfile user = mapper.map(userProfileDto, UserProfile.class);
         UserProfile response = userProfileRepository.create(user);
@@ -29,6 +31,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
+    @Transactional
     public UserProfileDto update(UserProfileDto userProfileDto) {
         UserProfile user = mapper.map(userProfileDto, UserProfile.class);
         UserProfile response = userProfileRepository.update(user);
@@ -39,6 +42,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
+    @Transactional
     public UserProfileDto read(Long id) {
         UserProfile response = userProfileRepository.read(id);
         if(response!=null){
@@ -48,6 +52,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
+    @Transactional
     public UserProfileDto delete(Long id) {
         UserProfile response=userProfileRepository.delete(id);
         if(response!=null){

@@ -1,5 +1,5 @@
 CREATE TABLE post_comments (
-    id bigint not null ,
+    id bigserial not null ,
     text character varying(255),
     posts_id bigint,
     users_profile_id bigint,

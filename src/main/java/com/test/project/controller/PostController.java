@@ -39,7 +39,6 @@ public class PostController {
             String responseJson = objectMapper.writeValueAsString(response);
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
             log.error("JsonProcessingException" + e.getMessage(),e);
             throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
@@ -50,7 +49,36 @@ public class PostController {
             String responseJson = objectMapper.writeValueAsString(response);
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            log.error("JsonProcessingException" + e.getMessage(),e);
+            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
+        }
+    }
+    public String getCriteria(Long id){
+        try {
+            PostDto response = postService.getPostCriteria(id);
+            String responseJson = objectMapper.writeValueAsString(response);
+            return objectMapper.readTree(responseJson).toString();
+        } catch (JsonProcessingException e) {
+            log.error("JsonProcessingException" + e.getMessage(),e);
+            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
+        }
+    }
+    public String getGraph(Long id){
+        try {
+            PostDto response = postService.getPostGraph(id);
+            String responseJson = objectMapper.writeValueAsString(response);
+            return objectMapper.readTree(responseJson).toString();
+        } catch (JsonProcessingException e) {
+            log.error("JsonProcessingException" + e.getMessage(),e);
+            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
+        }
+    }
+    public String getJpql(Long id){
+        try {
+            PostDto response = postService.getPostJpql(id);
+            String responseJson = objectMapper.writeValueAsString(response);
+            return objectMapper.readTree(responseJson).toString();
+        } catch (JsonProcessingException e) {
             log.error("JsonProcessingException" + e.getMessage(),e);
             throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
@@ -61,7 +89,6 @@ public class PostController {
             String responseJson = objectMapper.writeValueAsString(response);
             return objectMapper.readTree(responseJson).toString();
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
             log.error("JsonProcessingException" + e.getMessage(),e);
             throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
@@ -70,7 +97,6 @@ public class PostController {
         try {
             return objectMapper.writeValueAsString(postDto);
         }catch (JsonProcessingException e){
-            e.printStackTrace();
             log.error("JsonProcessingException" + e.getMessage(),e);
             throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
         }
