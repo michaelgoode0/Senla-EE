@@ -4,77 +4,45 @@ package com.test.project.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.project.api.service.UserService;
+import com.test.project.dto.PostDto;
 import com.test.project.dto.UserDto;
 import com.test.project.exceptions.GlobalException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
 
 
-@Component
+@RestController
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
 
     private final UserService userService;
 
-    private final ObjectMapper objectMapper;
-
-    public String create(String requestJson) {
-        try {
-            UserDto dto = objectMapper.readValue(requestJson, UserDto.class);
-            UserDto response = userService.create(dto);
-            String responseJson = objectMapper.writeValueAsString(response);
-            return objectMapper.readTree(responseJson).toString();
-        } catch (JsonProcessingException e) {
-            log.error("JsonProcessingException" + e.getMessage(),e);
-            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
-        }
+    @PostMapping
+    public ResponseEntity<UserDto> create(@RequestBody UserDto request){
+        UserDto response = userService.create(request);
+        return ResponseEntity.ok(response);
     }
 
-    public String update(String requestJson){
-        try {
-            UserDto dto = objectMapper.readValue(requestJson, UserDto.class);
-            UserDto response = userService.update(dto);
-            String responseJson = objectMapper.writeValueAsString(response);
-            return objectMapper.readTree(responseJson).toString();
-        } catch (JsonProcessingException e) {
-            log.error("JsonProcessingException" + e.getMessage(),e);
-            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
-        }
+    @GetMapping("get/{id}")
+    public ResponseEntity<UserDto> get(@PathVariable Long id){
+        UserDto response = userService.read(id);
+        return ResponseEntity.ok(response);
     }
-    public String read(Long id){
-        try {
-            UserDto response = userService.read(id);
-            String responseJson = objectMapper.writeValueAsString(response);
-            return objectMapper.readTree(responseJson).toString();
-        } catch (JsonProcessingException e) {
-            log.error("JsonProcessingException" + e.getMessage(),e);
-            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
-        }
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<UserDto> delete(@PathVariable Long id){
+        UserDto response = userService.delete(id);
+        return ResponseEntity.ok(response);
     }
-    public String delete(Long id){
-        try {
-            UserDto response = userService.delete(id);
-            String responseJson = objectMapper.writeValueAsString(response);
-            return objectMapper.readTree(responseJson).toString();
-        } catch (JsonProcessingException e) {
-            log.error("JsonProcessingException" + e.getMessage(),e);
-            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
-        }
+    @PutMapping
+    public ResponseEntity<UserDto> update(@RequestBody UserDto request){
+        UserDto response = userService.update(request);
+        return ResponseEntity.ok(response);
     }
-    public String mapToJson(UserDto userDto) {
-        try {
-            return objectMapper.writeValueAsString(userDto);
-        }catch (JsonProcessingException e){
-            log.error("JsonProcessingException" + e.getMessage(),e);
-            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
-        }
-    }
-
-
-
 }
