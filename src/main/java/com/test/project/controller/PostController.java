@@ -9,96 +9,37 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.*;
 
-@Component
+@RestController
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/posts")
 public class PostController {
 
     private final PostService postService;
 
-    private final ObjectMapper objectMapper;
-
-    public String create(String requestJson) {
-        try {
-            PostDto dto = objectMapper.readValue(requestJson, PostDto.class);
-            PostDto response = postService.create(dto);
-            String responseJson = objectMapper.writeValueAsString(response);
-            return objectMapper.readTree(responseJson).toString();
-        } catch (JsonProcessingException e) {
-            log.error("JsonProcessingException" + e.getMessage(),e);
-            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
-        }
+    @PostMapping
+    public ResponseEntity<PostDto> create (@RequestBody PostDto request){
+        PostDto response = postService.create(request);
+        return ResponseEntity.ok(response);
     }
 
-    public String update(String requestJson){
-        try {
-            PostDto dto = objectMapper.readValue(requestJson, PostDto.class);
-            PostDto response = postService.update(dto);
-            String responseJson = objectMapper.writeValueAsString(response);
-            return objectMapper.readTree(responseJson).toString();
-        } catch (JsonProcessingException e) {
-            log.error("JsonProcessingException" + e.getMessage(),e);
-            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
-        }
+    @GetMapping("/{id}")
+    public ResponseEntity<PostDto> get (@PathVariable Long id){
+        PostDto response = postService.read(id);
+        return ResponseEntity.ok(response);
     }
-    public String read(Long id){
-        try {
-            PostDto response = postService.read(id);
-            String responseJson = objectMapper.writeValueAsString(response);
-            return objectMapper.readTree(responseJson).toString();
-        } catch (JsonProcessingException e) {
-            log.error("JsonProcessingException" + e.getMessage(),e);
-            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
-        }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<PostDto> delete (@PathVariable Long id){
+        PostDto response = postService.delete(id);
+        return ResponseEntity.ok(response);
     }
-    public String getCriteria(Long id){
-        try {
-            PostDto response = postService.getPostCriteria(id);
-            String responseJson = objectMapper.writeValueAsString(response);
-            return objectMapper.readTree(responseJson).toString();
-        } catch (JsonProcessingException e) {
-            log.error("JsonProcessingException" + e.getMessage(),e);
-            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
-        }
-    }
-    public String getGraph(Long id){
-        try {
-            PostDto response = postService.getPostGraph(id);
-            String responseJson = objectMapper.writeValueAsString(response);
-            return objectMapper.readTree(responseJson).toString();
-        } catch (JsonProcessingException e) {
-            log.error("JsonProcessingException" + e.getMessage(),e);
-            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
-        }
-    }
-    public String getJpql(Long id){
-        try {
-            PostDto response = postService.getPostJpql(id);
-            String responseJson = objectMapper.writeValueAsString(response);
-            return objectMapper.readTree(responseJson).toString();
-        } catch (JsonProcessingException e) {
-            log.error("JsonProcessingException" + e.getMessage(),e);
-            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
-        }
-    }
-    public String delete(Long id){
-        try {
-            PostDto response = postService.delete(id);
-            String responseJson = objectMapper.writeValueAsString(response);
-            return objectMapper.readTree(responseJson).toString();
-        } catch (JsonProcessingException e) {
-            log.error("JsonProcessingException" + e.getMessage(),e);
-            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
-        }
-    }
-    public String mapToJson(PostDto postDto) {
-        try {
-            return objectMapper.writeValueAsString(postDto);
-        }catch (JsonProcessingException e){
-            log.error("JsonProcessingException" + e.getMessage(),e);
-            throw new GlobalException("JsonProcessingException" + e.getMessage(),e);
-        }
+    @PutMapping
+    public ResponseEntity<PostDto> update(@RequestBody PostDto request){
+        PostDto response = postService.update(request);
+        return ResponseEntity.ok(response);
     }
 }

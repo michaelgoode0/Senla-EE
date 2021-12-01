@@ -14,7 +14,6 @@ import java.util.Properties;
 
 @Configuration
 @PropertySource("classpath:application.properties")
-@ComponentScan({"com.test.project.dao","com.test.project.service","com.test.project.controller","com.test.project.config"})
 @EnableTransactionManagement
 public class DbConfig {
 
