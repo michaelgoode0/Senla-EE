@@ -15,9 +15,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 
-@Component
+@RestController
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/profiles")
 public class UserProfileController {
 
     private final UserProfileService userProfileService;
@@ -27,12 +28,12 @@ public class UserProfileController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("get/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserProfileDto> get(@PathVariable Long id){
         UserProfileDto response = userProfileService.read(id);
         return ResponseEntity.ok(response);
     }
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<UserProfileDto> delete(@PathVariable Long id){
         UserProfileDto response = userProfileService.delete(id);
         return ResponseEntity.ok(response);

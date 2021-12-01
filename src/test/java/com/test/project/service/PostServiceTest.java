@@ -1,14 +1,8 @@
 package com.test.project.service ;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.project.api.repository.PostRepository;
-import com.test.project.api.service.PostService;
-import com.test.project.config.DbConfig;
 import com.test.project.dto.PostDto;
 import com.test.project.entity.Post;
-import com.test.project.exceptions.EntityNotFoundException;
-import com.test.project.service.PostServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,8 +10,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

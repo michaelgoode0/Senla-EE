@@ -27,12 +27,12 @@ public class PostController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("get/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<PostDto> get (@PathVariable Long id){
         PostDto response = postService.read(id);
         return ResponseEntity.ok(response);
     }
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<PostDto> delete (@PathVariable Long id){
         PostDto response = postService.delete(id);
         return ResponseEntity.ok(response);

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -30,12 +31,12 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("get/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserDto> get(@PathVariable Long id){
         UserDto response = userService.read(id);
         return ResponseEntity.ok(response);
     }
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<UserDto> delete(@PathVariable Long id){
         UserDto response = userService.delete(id);
         return ResponseEntity.ok(response);
