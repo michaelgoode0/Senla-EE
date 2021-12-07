@@ -62,11 +62,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         final UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(dto.getUsername(),dto.getPassword());
         final Authentication authentication = authenticationManager.getObject().authenticate(authenticationToken);
-        String token = tokenProvider.createToken(authentication);
-        User user = userRepository.loadUserByUsername(dto.getUsername());
-        user.setToken(token);
-        userRepository.update(user);
-        return token;
+        return tokenProvider.createToken(authentication);
     }
 
     @Override

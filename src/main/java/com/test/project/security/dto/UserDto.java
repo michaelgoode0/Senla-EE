@@ -10,7 +10,6 @@ public class UserDto {
     private Long id;
     private String username;
     private String password;
-    private String token;
     private List<RoleDto> roles;
     private UserProfileDto profile;
 }

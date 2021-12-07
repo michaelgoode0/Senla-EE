@@ -19,8 +19,6 @@ public class User implements UserDetails  {
     private Long id;
     private String username;
     private String password;
-    @Transient
-    private String token;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles", joinColumns = {
             @JoinColumn(name = "user_id", referencedColumnName = "id")},
