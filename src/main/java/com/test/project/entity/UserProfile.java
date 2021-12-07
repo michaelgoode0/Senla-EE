@@ -18,6 +18,9 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "users_id")
+    private User user;
     @OneToMany(mappedBy = "profile",fetch = FetchType.LAZY)
     private List<Post> posts;
     @OneToOne(mappedBy = "profile",fetch = FetchType.LAZY)
