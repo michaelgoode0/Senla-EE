@@ -50,7 +50,7 @@ public class DbConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean (){
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactoryBean.setPackagesToScan("com.test.project.entity");
+        entityManagerFactoryBean.setPackagesToScan("com.test.project.entity","com.test.project.security.model");
         entityManagerFactoryBean.setJpaProperties(getJpaProperties());
         entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         entityManagerFactoryBean.setDataSource(getDataSource());
