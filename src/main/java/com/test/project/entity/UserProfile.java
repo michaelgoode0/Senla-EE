@@ -1,10 +1,6 @@
 package com.test.project.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import liquibase.pro.packaged.J;
-import lombok.Data;
+import com.test.project.security.model.User;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

@@ -1,6 +1,5 @@
 package com.test.project.entity;
 
-import liquibase.pro.packaged.J;
 
 import javax.persistence.*;
 
