@@ -1,7 +1,5 @@
 package com.test.project.security.filter;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.sun.xml.fastinfoset.DecoderStateTables;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -15,9 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.stereotype.Component;
 
-import javax.xml.bind.annotation.XmlType;
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;

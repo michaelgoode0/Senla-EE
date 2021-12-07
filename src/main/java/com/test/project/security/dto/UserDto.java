@@ -1,9 +1,6 @@
 package com.test.project.security.dto;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.test.project.dto.UserProfileDto;
-import com.test.project.security.model.Role;
 import lombok.Data;
 
 import java.util.List;

@@ -1,7 +1,5 @@
 package com.test.project.security.service;
 
-import com.test.project.dto.PostDto;
-import com.test.project.entity.Post;
 import com.test.project.security.api.repository.RoleRepository;
 import com.test.project.security.api.repository.UserRepository;
 import com.test.project.security.api.service.UserService;
@@ -9,13 +7,11 @@ import com.test.project.security.dto.LoginDto;
 import com.test.project.security.dto.RoleDto;
 import com.test.project.security.dto.UserDto;
 import com.test.project.security.enums.RoleName;
-import com.test.project.security.filter.JwtFilter;
 import com.test.project.security.filter.TokenProvider;
 import com.test.project.security.model.Role;
 import com.test.project.security.model.User;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -26,12 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -53,20 +44,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return user;
     }
 
-    private UserDto getByUsername(String username){
-        return mapper.map(userRepository.loadUserByUsername(username),UserDto.class) ;
-    }
-
     @Override
     @Transactional
     public UserDto signUp(LoginDto dto) {
-        UserDto userDto = new UserDto();
+        User user = new User();
         Role userRole = roleRepository.findRoleByName(RoleName.ROLE_USER);
-        RoleDto roleDto= mapper.map(userRole,RoleDto.class);
-        userDto.setUsername(dto.getUsername());
-        userDto.setPassword(passwordEncoder.encode(dto.getPassword()));
-        userDto.setRoles(Collections.singletonList(roleDto));
-        User user = mapper.map(userDto, User.class);
+        user.setUsername(dto.getUsername());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setRoles(Collections.singletonList(userRole));
         userRepository.create(user);
         return mapper.map(user,UserDto.class);
     }
@@ -78,9 +63,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
                 new UsernamePasswordAuthenticationToken(dto.getUsername(),dto.getPassword());
         final Authentication authentication = authenticationManager.getObject().authenticate(authenticationToken);
         String token = tokenProvider.createToken(authentication);
-        UserDto userDto = getByUsername(dto.getUsername());
-        userDto.setToken(token);
-        User user = mapper.map(userDto,User.class);
+        User user = userRepository.loadUserByUsername(dto.getUsername());
+        user.setToken(token);
         userRepository.update(user);
         return token;
     }

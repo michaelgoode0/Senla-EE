@@ -4,7 +4,6 @@ import com.test.project.api.repository.PostRepository;
 import com.test.project.api.service.PostService;
 import com.test.project.dto.PostDto;
 import com.test.project.entity.Post;
-import com.test.project.dao.PostRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
