@@ -4,7 +4,6 @@ import com.test.project.security.api.repository.RoleRepository;
 import com.test.project.security.api.repository.UserRepository;
 import com.test.project.security.api.service.UserService;
 import com.test.project.security.dto.LoginDto;
-import com.test.project.security.dto.RoleDto;
 import com.test.project.security.dto.UserDto;
 import com.test.project.security.enums.RoleName;
 import com.test.project.security.filter.TokenProvider;
@@ -44,6 +43,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return user;
     }
 
+
     @Override
     @Transactional
     public UserDto signUp(LoginDto dto) {
@@ -69,6 +69,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Transactional
     public UserDto delete(Long id){
         User user = userRepository.delete(id);
+        if(user!=null){
+            return mapper.map(user,UserDto.class);
+        }
+        return null;
+    }
+    @Override
+    public UserDto loadByUsername(String username) {
+        User user = userRepository.loadUserByUsername(username);
         if(user!=null){
             return mapper.map(user,UserDto.class);
         }

@@ -1,10 +1,7 @@
 package com.test.project.dto;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.test.project.entity.Hashtag;
 import lombok.Data;
 
 import java.util.List;
@@ -13,10 +10,8 @@ import java.util.List;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
-public class PostDto {
+public class HashtagDto {
     private Long id;
-    private String text;
-    private UserProfileDto profile;
-    private List<PostCommentDto> comments;
-    private List<ReactionDto> reactions;
+    private String value;
+    private List<PostDto> posts;
 }

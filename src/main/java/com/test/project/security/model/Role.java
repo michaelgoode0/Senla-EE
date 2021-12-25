@@ -13,7 +13,6 @@ import static java.lang.String.valueOf;
 @Entity
 @Getter
 @Setter
-@ToString
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
 

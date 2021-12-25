@@ -1,5 +1,6 @@
 package com.test.project.security.model;
 
+import com.test.project.entity.UserProfile;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +12,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString
 @Table(name = "users")
 public class User implements UserDetails  {
     @Id
@@ -19,6 +19,8 @@ public class User implements UserDetails  {
     private Long id;
     private String username;
     private String password;
+    @OneToOne(mappedBy = "user")
+    private UserProfile userProfile;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles", joinColumns = {
             @JoinColumn(name = "user_id", referencedColumnName = "id")},
@@ -30,7 +32,7 @@ public class User implements UserDetails  {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return getRoles();
     }
 
     @Override

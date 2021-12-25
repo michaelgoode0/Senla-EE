@@ -28,10 +28,4 @@ public class LoginController{
         UserDto response = userService.signUp(request);
         return ResponseEntity.ok(response);
     }
-    @Secured("ROLE_ADMIN")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<UserDto> delete(@PathVariable Long id) {
-        UserDto response = userService.delete(id);
-        return ResponseEntity.ok(response);
-    }
 }

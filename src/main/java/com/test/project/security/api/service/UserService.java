@@ -7,4 +7,5 @@ public interface UserService {
     UserDto signUp(LoginDto dto);
     String signIn(LoginDto dto);
     UserDto delete(Long id);
+    UserDto loadByUsername(String username);
 }

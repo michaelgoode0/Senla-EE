@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-@Slf4j
 public class PostRepositoryImpl extends AbstractDao<Post> implements PostRepository {
 
     @Override

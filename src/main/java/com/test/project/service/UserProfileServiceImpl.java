@@ -7,6 +7,8 @@ import com.test.project.dto.UserProfileDto;
 import com.test.project.entity.Post;
 import com.test.project.entity.UserProfile;
 import com.test.project.dao.UserProfileRepositoryImpl;
+import com.test.project.security.dto.UserDto;
+import com.test.project.security.model.User;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +27,8 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     @Transactional
     public UserProfileDto create(UserProfileDto userProfileDto) {
-        UserProfile user = mapper.map(userProfileDto, UserProfile.class);
-        UserProfile response = userProfileRepository.create(user);
+        UserProfile userProfile = mapper.map(userProfileDto, UserProfile.class);
+        UserProfile response = userProfileRepository.create(userProfile);
         return mapper.map(response, UserProfileDto.class);
     }
 

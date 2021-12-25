@@ -1,11 +1,8 @@
 package com.test.project.api.service;
 
 import com.test.project.dto.UserProfileDto;
+import com.test.project.util.GenericDao;
 
-public interface UserProfileService {
-    UserProfileDto create(UserProfileDto user);
-    UserProfileDto update(UserProfileDto user);
-    UserProfileDto read(Long id);
-    UserProfileDto delete(Long id);
+public interface UserProfileService extends GenericDao<UserProfileDto> {
 
 }

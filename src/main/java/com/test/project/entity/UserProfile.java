@@ -10,7 +10,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "users_profiles")
 public class UserProfile {
@@ -25,4 +24,5 @@ public class UserProfile {
     private List<Post> posts;
     @OneToOne(mappedBy = "profile",fetch = FetchType.LAZY)
     private Reaction reaction;
+
 }

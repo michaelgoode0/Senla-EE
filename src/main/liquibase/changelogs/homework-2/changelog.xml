@@ -73,4 +73,12 @@
         <sqlFile encoding="utf8" path="./sql/create_database_reactions.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
+    <changeSet id="create_database_hashtags" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/create_database_hashtags.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="connect_posts_hashtags" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/connect_posts_hashtags.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
 </databaseChangeLog> 
