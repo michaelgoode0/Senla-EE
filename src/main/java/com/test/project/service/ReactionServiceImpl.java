@@ -28,7 +28,7 @@ public class ReactionServiceImpl implements ReactionService {
 
     @Override
     @Transactional
-    public ReactionDto like(Long postId, boolean react) {
+    public ReactionDto react(Long postId, boolean react) {
         User user = userRepository.loadUserByUsername(AuthNameHolder.authUsername());
         Post post = postRepository.read(postId);
         UserProfile userProfile = user.getUserProfile();

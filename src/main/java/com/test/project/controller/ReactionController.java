@@ -23,12 +23,12 @@ public class ReactionController {
 
     @GetMapping("/{postId}/like")
     public ResponseEntity<ReactionDto> like(@PathVariable Long postId){
-        ReactionDto response = reactionService.like(postId,true);
+        ReactionDto response = reactionService.react(postId,true);
         return ResponseEntity.ok(response);
     }
     @GetMapping("/{postId}/dislike")
     public ResponseEntity<ReactionDto> dislike (@PathVariable Long postId){
-        ReactionDto response = reactionService.like(postId,false);
+        ReactionDto response = reactionService.react(postId,false);
         return ResponseEntity.ok(response);
     }
 }

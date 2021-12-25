@@ -6,5 +6,5 @@ import com.test.project.dto.UserProfileDto;
 import com.test.project.entity.Reaction;
 
 public interface ReactionService {
-   ReactionDto like(Long postId, boolean reaction);
+   ReactionDto react(Long postId, boolean reaction);
 }
