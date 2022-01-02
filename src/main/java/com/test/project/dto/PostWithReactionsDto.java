@@ -5,8 +5,8 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class HashtagDto {
+public class PostWithReactionsDto {
     private Long id;
-    private String value;
-    private List<PostDto> posts;
+    private String text;
+    private List<ReactionDto> reactions;
 }

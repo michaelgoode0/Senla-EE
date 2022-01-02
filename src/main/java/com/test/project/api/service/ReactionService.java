@@ -2,9 +2,11 @@ package com.test.project.api.service;
 
 import com.test.project.dto.PostDto;
 import com.test.project.dto.ReactionDto;
-import com.test.project.dto.UserProfileDto;
-import com.test.project.entity.Reaction;
+import com.test.project.dto.ReactionWithAllDto;
+
+import java.util.List;
 
 public interface ReactionService {
-   ReactionDto react(Long postId, boolean reaction);
+   void react(PostDto postDto, boolean reaction);
+   List<ReactionDto> getAll();
 }

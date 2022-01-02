@@ -1,8 +1,9 @@
 package com.test.project.security.api.repository;
 
 import com.test.project.security.model.User;
-import com.test.project.util.GenericDao;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends GenericDao<User> {
-    User loadUserByUsername(String username);
+public interface UserRepository extends JpaRepository<User,Long> {
+    User findUserByUsername(String username);
+    void deleteById(Long id);
 }

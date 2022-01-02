@@ -1,7 +1,8 @@
 CREATE TABLE users_profiles (
     id bigserial not null,
-    name character varying(255),
-    users_id bigint,
-    FOREIGN KEY (users_id) REFERENCES users(id),
+    firstname character varying(255),
+    surname character varying(255),
+    town character varying(255),
+    phoneNumber bigint,
     primary key(id)
 );

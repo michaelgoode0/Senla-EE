@@ -1,22 +1,15 @@
 package com.test.project.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.test.project.entity.Hashtag;
+import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 
-import java.util.List;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Data
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 public class PostDto {
     private Long id;
+    @NotEmpty(message = "zaebalo")
     private String text;
-    private UserProfileDto profile;
-    private List<PostCommentDto> comments;
-    private List<ReactionDto> reactions;
 }

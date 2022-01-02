@@ -1,10 +1,13 @@
 package com.test.project.security.service;
 
+import com.test.project.api.repository.UserProfileRepository;
+import com.test.project.entity.UserProfile;
 import com.test.project.security.api.repository.RoleRepository;
 import com.test.project.security.api.repository.UserRepository;
 import com.test.project.security.api.service.UserService;
 import com.test.project.security.dto.LoginDto;
 import com.test.project.security.dto.UserDto;
+import com.test.project.security.dto.UserWithAllDto;
 import com.test.project.security.enums.RoleName;
 import com.test.project.security.filter.TokenProvider;
 import com.test.project.security.model.Role;
@@ -31,12 +34,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private final AuthenticationManagerBuilder authenticationManager;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final UserProfileRepository userProfileRepository;
     private final RoleRepository roleRepository;
     private final ModelMapper mapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.loadUserByUsername(username);
+        User user = userRepository.findUserByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
@@ -46,14 +50,19 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     @Transactional
-    public UserDto signUp(LoginDto dto) {
+    public UserWithAllDto signUp(LoginDto dto) {
         User user = new User();
-        Role userRole = roleRepository.findRoleByName(RoleName.ROLE_USER);
+        UserProfile userProfile = new UserProfile();
+        Role userRole = roleRepository.findRoleByRoleName(RoleName.ROLE_USER);
         user.setUsername(dto.getUsername());
+        userProfile.setFirstname(dto.getUsername());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRoles(Collections.singletonList(userRole));
-        userRepository.create(user);
-        return mapper.map(user,UserDto.class);
+        user.setProfile(userProfile);
+        User user1 = userRepository.save(user);
+        userProfile.setUser(user1);
+        userProfileRepository.save(userProfile);
+        return mapper.map(user,UserWithAllDto.class);
     }
 
     @Override
@@ -67,20 +76,16 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     @Transactional
-    public UserDto delete(Long id){
-        User user = userRepository.delete(id);
-        if(user!=null){
-            return mapper.map(user,UserDto.class);
-        }
+    public UserWithAllDto delete(Long id){
+        userRepository.deleteById(id);
         return null;
     }
     @Override
-    public UserDto loadByUsername(String username) {
-        User user = userRepository.loadUserByUsername(username);
-        if(user!=null){
-            return mapper.map(user,UserDto.class);
-        }
-        return null;
+    @Transactional
+    public UserWithAllDto loadByUsername(String username) {
+        User user = userRepository.findUserByUsername(username);
+        return mapper.map(user,UserWithAllDto.class);
+
     }
 
 }

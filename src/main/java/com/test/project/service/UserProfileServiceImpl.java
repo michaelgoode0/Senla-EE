@@ -2,64 +2,52 @@ package com.test.project.service;
 
 import com.test.project.api.repository.UserProfileRepository;
 import com.test.project.api.service.UserProfileService;
-import com.test.project.dto.PostDto;
 import com.test.project.dto.UserProfileDto;
-import com.test.project.entity.Post;
+import com.test.project.dto.UserProfileWithAllDto;
 import com.test.project.entity.UserProfile;
-import com.test.project.dao.UserProfileRepositoryImpl;
-import com.test.project.security.dto.UserDto;
+import com.test.project.security.api.repository.UserRepository;
 import com.test.project.security.model.User;
+import com.test.project.util.AuthNameHolder;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserProfileServiceImpl implements UserProfileService {
 
     private final UserProfileRepository userProfileRepository;
+    private final UserRepository userRepository;
     private final ModelMapper mapper;
 
     @Override
     @Transactional
-    public UserProfileDto create(UserProfileDto userProfileDto) {
-        UserProfile userProfile = mapper.map(userProfileDto, UserProfile.class);
-        UserProfile response = userProfileRepository.create(userProfile);
-        return mapper.map(response, UserProfileDto.class);
-    }
-
-    @Override
-    @Transactional
+    @PreAuthorize("@userProfileServiceImpl.read(#userProfileDto.id).user.username == authentication.name")
     public UserProfileDto update(UserProfileDto userProfileDto) {
-        UserProfile user = mapper.map(userProfileDto, UserProfile.class);
-        UserProfile response = userProfileRepository.update(user);
-        if(response!=null){
-            return mapper.map(response,UserProfileDto.class);
-        }
-        return null;
+        UserProfile userProfile = userProfileRepository.findById(userProfileDto.getId()).orElse(null);
+        User user = userRepository.findUserByUsername(AuthNameHolder.getAuthUsername());
+        mapper.map(userProfileDto,userProfile);
+        userProfile.setUser(user);
+        UserProfile response = userProfileRepository.save(userProfile);
+        return mapper.map(response, UserProfileDto.class);
+
     }
 
     @Override
     @Transactional
-    public UserProfileDto read(Long id) {
-        UserProfile response = userProfileRepository.read(id);
-        if(response!=null){
-            return mapper.map(response,UserProfileDto.class);
-        }
-        return null;
+    public UserProfileWithAllDto read(Long id) {
+        UserProfile response = userProfileRepository.findById(id).orElse(null);
+        return mapper.map(response, UserProfileWithAllDto.class);
     }
 
     @Override
     @Transactional
-    public UserProfileDto delete(Long id) {
-        UserProfile response=userProfileRepository.delete(id);
-        if(response!=null){
-            return mapper.map(response,UserProfileDto.class);
-        }
-        return null;
+    @PreAuthorize("@userProfileServiceImpl.read(#id).user.username == authentication.name")
+    public UserProfileWithAllDto delete(Long id) {
+        UserProfileWithAllDto response = read(id);
+        userProfileRepository.deleteById(id);
+        return mapper.map(response, UserProfileWithAllDto.class);
     }
 }

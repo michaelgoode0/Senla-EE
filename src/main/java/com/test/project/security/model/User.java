@@ -17,10 +17,17 @@ public class User implements UserDetails  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "username")
     private String username;
+    @Column(name="password")
     private String password;
-    @OneToOne(mappedBy = "user")
-    private UserProfile userProfile;
+    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.REMOVE})
+    @JoinTable(name = "profiles_users", joinColumns = {
+            @JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "user_profile_id", referencedColumnName = "id")
+            })
+    private UserProfile profile;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles", joinColumns = {
             @JoinColumn(name = "user_id", referencedColumnName = "id")},

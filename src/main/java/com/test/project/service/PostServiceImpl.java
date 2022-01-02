@@ -1,81 +1,93 @@
 package com.test.project.service;
 
-import com.test.project.api.repository.HashtagRepository;
 import com.test.project.api.repository.PostRepository;
+import com.test.project.api.service.HashtagService;
 import com.test.project.api.service.PostService;
-import com.test.project.dto.PostDto;
+import com.test.project.api.service.ReactionService;
+import com.test.project.dto.*;
 import com.test.project.entity.Hashtag;
 import com.test.project.entity.Post;
+import com.test.project.entity.UserProfile;
+import com.test.project.exceptions.GlobalException;
 import com.test.project.security.api.repository.UserRepository;
 import com.test.project.security.model.User;
 import com.test.project.util.AuthNameHolder;
-import com.test.project.util.HashtagFinder;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.Converters;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
-    private final HashtagRepository hashtagRepository;
+    private final HashtagService hashtagService;
     private final UserRepository userRepository;
+    private final ReactionService reactionService;
     private final ModelMapper mapper;
 
     @Override
     @Transactional
     public PostDto create(PostDto postDto) {
-        User user = userRepository.loadUserByUsername(AuthNameHolder.authUsername());
+        User user = userRepository.findUserByUsername(AuthNameHolder.getAuthUsername());
         Post post = mapper.map(postDto, Post.class);
-        List<Hashtag> hashtags = HashtagFinder.findHashtag(post.getText());
-        List<Hashtag> hashtagsToSet = new ArrayList<>();
-        for (Hashtag hashtag : hashtags) {
-            if (!hashtagRepository.getAllHashtagValues().contains(hashtag.getValue())) {
-                Hashtag hashtagToAdd = hashtagRepository.create(hashtag);
-                hashtagsToSet.add(hashtagToAdd);
-            } else {
-                hashtagsToSet.add(hashtagRepository.getHashtag(hashtag.getValue()));
-            }
-        }
-        post.setHashtags(hashtagsToSet);
-        post.setProfile(user.getUserProfile());
-        Post response = postRepository.create(post);
+        Set<Hashtag> uniqueHashtags= hashtagService.createUniqueHashtags(postDto).stream().
+                map(entity->mapper.map(entity, Hashtag.class)).collect(Collectors.toSet());
+        post.setHashtags(uniqueHashtags);
+        post.setProfile(user.getProfile());
+        Post response = postRepository.save(post);
         return mapper.map(response, PostDto.class);
     }
 
     @Override
     @Transactional
-    public PostDto update(PostDto postDto) {
-        Post post = mapper.map(postDto, Post.class);
-        Post response = postRepository.update(post);
-        if(response!=null){
-            return mapper.map(response,PostDto.class);
-        }
-        return null;
+    @PreAuthorize("@postServiceImpl.read(#postDto.id).profile.user.username == authentication.name")
+    public PostWithProfileDto update(PostDto postDto) {
+        Post post = postRepository.findById(postDto.getId()).orElse(null);
+        Set<HashtagWithPostsDto> hashtags = hashtagService.createUniqueHashtags(mapper.map(post,PostDto.class));
+        mapper.map(postDto,post);
+        Set<HashtagWithPostsDto> newHashtags = hashtagService.createUniqueHashtags(mapper.map(post,PostDto.class));
+        hashtags.removeAll(newHashtags);
+        Set<Hashtag> hashtagList = newHashtags.stream()
+                .map(entity-> mapper.map(entity,Hashtag.class)).collect(Collectors.toSet());
+        post.setHashtags(hashtagList);
+        Post response = postRepository.save(post);
+        hashtags.stream().filter(k->k.getPosts().size()==1).forEach(k->hashtagService.delete(k.getId()));
+        return mapper.map(response, PostWithProfileDto.class);
     }
 
     @Override
     @Transactional
-    public PostDto read(Long id) {
-        Post response = postRepository.read(id);
-        if(response!=null){
-            return mapper.map(response,PostDto.class);
-        }
-        return null;
+    public PostWithAllDto read(Long id) {
+        Post response = postRepository.findById(id).orElse(null);
+        return mapper.map(response, PostWithAllDto.class);
     }
 
     @Override
     @Transactional
-    public PostDto delete(Long id) {
-        Post response = postRepository.delete(id);
-        if(response!=null){
-            return mapper.map(response,PostDto.class);
-        }
-        return null;
+    @PreAuthorize("@postServiceImpl.read(#id).profile.user.username == authentication.name")
+    public PostWithAllDto delete(Long id) {
+        PostWithAllDto response = read(id);
+        postRepository.deleteById(id);
+        return mapper.map(response, PostWithAllDto.class);
+    }
+
+    @Override
+    @Transactional
+    public PostWithReactionsDto setReaction(Long postId, boolean react){
+        Post post = postRepository.findById(postId).orElse(null);
+        PostDto postDto = mapper.map(post, PostDto.class);
+        reactionService.react(postDto,react);
+        return mapper.map(post, PostWithReactionsDto.class);
     }
 }

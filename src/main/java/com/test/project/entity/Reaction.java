@@ -2,13 +2,15 @@ package com.test.project.entity;
 
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Setter
 @Getter
+@Setter
+@RequiredArgsConstructor
 @Table(name = "reactions")
 public class Reaction {
     @Id
@@ -16,11 +18,19 @@ public class Reaction {
     private Long id;
     private Boolean reaction;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_profile_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(name = "reactions_profiles", joinColumns = {
+            @JoinColumn(name = "reaction_id", referencedColumnName = "id")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+            })
     private UserProfile profile;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
+    @JoinTable(name = "reactions_posts", joinColumns = {
+            @JoinColumn(name = "reaction_id", referencedColumnName = "id")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "post_id", referencedColumnName = "id")
+            })
     private Post post;
 
 

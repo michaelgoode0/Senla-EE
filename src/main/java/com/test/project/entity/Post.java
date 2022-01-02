@@ -1,15 +1,20 @@
 package com.test.project.entity;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
+@RequiredArgsConstructor
 @Table(name = "posts")
 @NamedEntityGraph(name = "graph.Post.profile",
         attributeNodes = @NamedAttributeNode("profile"))
@@ -20,18 +25,22 @@ public class Post {
     private Long id;
     private String text;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "users_profiles_id")
+    @JoinTable(name = "posts_profiles", joinColumns = {
+            @JoinColumn(name = "post_id", referencedColumnName = "id")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+            })
     private UserProfile profile;
     @OneToMany(mappedBy = "post",fetch = FetchType.LAZY)
     private List<PostComment> postComments;
     @OneToMany(mappedBy = "post",fetch = FetchType.LAZY)
     private List<Reaction> reactions;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     @JoinTable(name = "posts_hashtags", joinColumns = {
             @JoinColumn(name = "post_id", referencedColumnName = "id")},
             inverseJoinColumns = {
                     @JoinColumn(name = "hashtag_id", referencedColumnName = "id")
             })
-    private List<Hashtag> hashtags;
+    private Set<Hashtag> hashtags;
 
 }

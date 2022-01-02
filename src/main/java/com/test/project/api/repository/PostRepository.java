@@ -1,11 +1,9 @@
 package com.test.project.api.repository;
 
-import com.test.project.util.GenericDao;
 import com.test.project.entity.Post;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface PostRepository extends GenericDao<Post> {
-    Post getPostGraph(Long id);
-    Post getPostJpql(Long id);
-    Post getPostCriteria(Long id);
+@Repository
+public interface PostRepository extends JpaRepository<Post,Long> {
 }

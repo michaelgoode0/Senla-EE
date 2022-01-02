@@ -1,7 +1,9 @@
 package com.test.project.api.repository;
 
-import com.test.project.util.GenericDao;
 import com.test.project.entity.UserProfile;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserProfileRepository extends GenericDao<UserProfile> {
+@Repository
+public interface UserProfileRepository extends JpaRepository<UserProfile,Long> {
 }

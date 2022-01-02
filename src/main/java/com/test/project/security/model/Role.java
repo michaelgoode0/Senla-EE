@@ -22,13 +22,13 @@ public class Role implements GrantedAuthority {
 
     @Column(name = "permission")
     @Enumerated(EnumType.STRING)
-    private RoleName role;
+    private RoleName roleName;
 
     @ManyToMany(mappedBy ="roles",fetch = FetchType.LAZY)
     private List<User> users;
 
     @Override
     public String getAuthority() {
-        return valueOf(getRole());
+        return valueOf(getRoleName());
     }
 }

@@ -1,16 +1,12 @@
 package com.test.project.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
+
 @Data
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 public class PostCommentDto {
     private Long id;
+    @NotEmpty(message = "Post comment can not be empty")
     private String text;
-    private UserProfileDto profile;
-    private PostDto post;
 }
