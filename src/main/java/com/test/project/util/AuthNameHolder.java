@@ -9,4 +9,7 @@ public class AuthNameHolder {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
     }
+    public static Authentication getAuth (){
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
 }

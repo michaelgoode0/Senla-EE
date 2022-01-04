@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +39,8 @@ public class PostServiceImpl implements PostService {
         User user = userRepository.findUserByUsername(AuthNameHolder.getAuthUsername());
         Post post = mapper.map(postDto, Post.class);
         Set<Hashtag> uniqueHashtags= hashtagService.createUniqueHashtags(postDto).stream().
-                map(entity->mapper.map(entity, Hashtag.class)).collect(Collectors.toSet());
+                map(entity->mapper.map(entity, Hashtag.class))
+                .collect(Collectors.toSet());
         post.setHashtags(uniqueHashtags);
         post.setProfile(user.getProfile());
         Post response = postRepository.save(post);
@@ -47,7 +49,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    @PreAuthorize("@postServiceImpl.read(#postDto.id).profile.user.username == authentication.name"+ "|| hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') "+"|| @postServiceImpl.read(#postDto.id).profile.user.username == authentication.name")
     public PostWithProfileDto update(PostDto postDto) {
         Post post = postRepository.findById(postDto.getId())
                 .orElseThrow((()->new ResourceNotFoundException("Post with id:" + postDto.getId() + " not found")));
@@ -76,7 +78,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    @PreAuthorize("@postServiceImpl.read(#id).profile.user.username == authentication.name"+ "|| hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') "+"|| @postServiceImpl.read(#id).profile.user.username == authentication.name")
     public void delete(Long id) {
         postRepository.deleteById(id);
     }

@@ -11,15 +11,13 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "posts")
-@NamedEntityGraph(name = "graph.Post.profile",
-        attributeNodes = @NamedAttributeNode("profile"))
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String text;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinTable(name = "posts_profiles", joinColumns = {
             @JoinColumn(name = "post_id", referencedColumnName = "id")},
             inverseJoinColumns = {
