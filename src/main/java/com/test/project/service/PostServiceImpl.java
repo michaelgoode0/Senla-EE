@@ -56,10 +56,13 @@ public class PostServiceImpl implements PostService {
         Set<HashtagWithPostsDto> newHashtags = hashtagService.createUniqueHashtags(mapper.map(post,PostDto.class));
         hashtags.removeAll(newHashtags);
         Set<Hashtag> hashtagList = newHashtags.stream()
-                .map(entity-> mapper.map(entity,Hashtag.class)).collect(Collectors.toSet());
+                .map(entity-> mapper.map(entity,Hashtag.class))
+                .collect(Collectors.toSet());
         post.setHashtags(hashtagList);
         Post response = postRepository.save(post);
-        hashtags.stream().filter(k->k.getPosts().size()==1).forEach(k->hashtagService.delete(k.getId()));
+        hashtags.stream()
+                .filter(k->k.getPosts().size()==1)
+                .forEach(k->hashtagService.delete(k.getId()));
         return mapper.map(response, PostWithProfileDto.class);
     }
 
@@ -90,6 +93,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Page<PostWithAllDto> findAll(Pageable pageable) {
-        return postRepository.findAll(pageable).map(entity->mapper.map(entity, PostWithAllDto.class));
+        return postRepository.findAll(pageable)
+                .map(entity->mapper.map(entity, PostWithAllDto.class));
     }
 }

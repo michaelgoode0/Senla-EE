@@ -49,10 +49,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     @Transactional
-    public UserWithAllDto signUp(LoginDto dto) {
+    public UserWithAllDto signUp(LoginDto dto,RoleName roleName) {
         User user = new User();
         UserProfile userProfile = new UserProfile();
-        Role userRole = roleRepository.findRoleByRoleName(RoleName.ROLE_USER);
+        Role userRole = roleRepository.findRoleByRoleName(roleName);
         user.setUsername(dto.getUsername());
         userProfile.setFirstname(dto.getUsername());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -73,9 +73,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     @Transactional
-    public UserWithAllDto delete(Long id){
+    public void delete(Long id){
         userRepository.deleteById(id);
-        return null;
     }
     @Override
     @Transactional

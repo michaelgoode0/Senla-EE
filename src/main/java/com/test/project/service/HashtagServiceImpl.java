@@ -30,11 +30,13 @@ public class HashtagServiceImpl  implements HashtagService {
 
     @Override
     public Page<HashtagWithPostsDto> getAll(Pageable pageable) {
-        return hashtagRepository.findAll(pageable).map(entity->mapper.map(entity, HashtagWithPostsDto.class));
+        return hashtagRepository.findAll(pageable)
+                .map(entity->mapper.map(entity, HashtagWithPostsDto.class));
     }
     @Override
     public Page<HashtagWithPostsDto> getAllTop(Pageable pageable) {
-        return hashtagRepository.getAllTop(pageable).map(entity->mapper.map(entity, HashtagWithPostsDto.class));
+        return hashtagRepository.getAllTop(pageable)
+                .map(entity->mapper.map(entity, HashtagWithPostsDto.class));
     }
 
     @Override
@@ -52,7 +54,8 @@ public class HashtagServiceImpl  implements HashtagService {
             }
         }
         return hashtagsToSet.stream()
-                .map(entity->mapper.map(entity, HashtagWithPostsDto.class)).collect(Collectors.toSet());
+                .map(entity->mapper.map(entity, HashtagWithPostsDto.class))
+                .collect(Collectors.toSet());
     }
 
     @Override

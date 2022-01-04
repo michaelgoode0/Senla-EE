@@ -57,7 +57,8 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Page<UserProfileDto> findAll(Pageable pageable){
-        return userProfileRepository.findAll(pageable).map(entity->mapper.map(entity,UserProfileDto.class));
+        return userProfileRepository.findAll(pageable)
+                .map(entity->mapper.map(entity,UserProfileDto.class));
     }
 
 

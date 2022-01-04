@@ -32,7 +32,8 @@ public class ReactionServiceImpl implements ReactionService {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<ReactionDto> getAll(){
         return reactionRepository.findAll().stream()
-                .map(entity->mapper.map(entity,ReactionDto.class)).collect(Collectors.toList());
+                .map(entity->mapper.map(entity,ReactionDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -46,8 +47,8 @@ public class ReactionServiceImpl implements ReactionService {
         reaction.setReaction(react);
         reaction.setProfile(userProfile);
         Reaction postReaction = reactionRepository.findAll().stream()
-                .filter(k-> k.getPost().getId().equals(post.getId()) &&
-                        k.getProfile().getId().equals(userProfile.getId())).findFirst().orElse(null);
+                .filter(k-> k.getPost().getId().equals(post.getId()) && k.getProfile().getId().equals(userProfile.getId()))
+                .findFirst().orElse(null);
         if (postReaction!=null){
             Boolean isLike = postReaction.getReaction() ;
             reactionRepository.deleteById(postReaction.getId());
