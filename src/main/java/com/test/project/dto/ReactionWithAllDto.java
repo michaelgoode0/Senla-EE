@@ -6,6 +6,6 @@ import lombok.Data;
 public class ReactionWithAllDto {
     private Long id;
     private Boolean reaction;
-    private UserProfileWithAllDto profile;
-    private PostWithAllDto post;
+    private UserProfileDto profile;
+    private PostDto post;
 }

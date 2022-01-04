@@ -66,5 +66,14 @@
     <changeSet id="connect_comments_posts" author="Exception">
         <sqlFile encoding="utf8" path="./sql/connect_comments_posts.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet id="create_database_invites" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/create_database_invites.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet id="connect_invites_from_user" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/connect_invites_from_user.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet id="connect_invites_to_user" author="Exception">
+        <sqlFile encoding="utf8" path="./sql/connect_invites_to_user.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 
 </databaseChangeLog> 

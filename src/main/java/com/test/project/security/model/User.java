@@ -1,7 +1,8 @@
 package com.test.project.security.model;
 
 import com.test.project.entity.UserProfile;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

@@ -12,7 +12,9 @@ public class UserProfileWithAllDto {
     private String surname;
     private String town;
     private Long phoneNumber;
-    private List<PostWithAllDto> posts;
-    private List<ReactionWithAllDto> reactions;
+    private List<PostDto> posts;
+    private List<ReactionDto> reactions;
+    private List<UserProfileDto> friends;
+    private List<InviteDto> invites;
     private UserDto user;
 }

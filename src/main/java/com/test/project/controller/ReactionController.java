@@ -1,11 +1,9 @@
 package com.test.project.controller;
 
-import com.test.project.api.service.ReactionService;
-import com.test.project.dto.ReactionWithAllDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor

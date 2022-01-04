@@ -1,20 +1,15 @@
 package com.test.project.entity;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@RequiredArgsConstructor
 @Table(name = "posts")
 @NamedEntityGraph(name = "graph.Post.profile",
         attributeNodes = @NamedAttributeNode("profile"))

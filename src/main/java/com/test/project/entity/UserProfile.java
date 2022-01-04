@@ -2,17 +2,13 @@ package com.test.project.entity;
 
 import com.test.project.security.model.User;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @Entity
 @Table(name = "users_profiles")
 public class UserProfile {
@@ -29,5 +25,11 @@ public class UserProfile {
     private List<Post> posts;
     @OneToMany(mappedBy = "profile",fetch = FetchType.LAZY)
     private List<Reaction> reaction;
-
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "friends", joinColumns = {
+            @JoinColumn(name = "from_user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "to_user_id", referencedColumnName = "id")
+            })
+    private List<UserProfile> friends;
 }

@@ -7,6 +7,6 @@ import com.test.project.dto.PostCommentWithAllDto;
 public interface PostCommentService {
     PostCommentDto create(PostCommentDto postCommentDto, Long postId);
     PostCommentDto update(PostCommentDto postCommentDto);
-    PostCommentWithAllDto delete(Long id);
+    void delete(Long id);
     PostCommentWithAllDto read(Long id);
 }

@@ -6,6 +6,7 @@ import com.test.project.dto.HashtagWithPostsDto;
 import com.test.project.dto.PostDto;
 import com.test.project.entity.Hashtag;
 import com.test.project.entity.Post;
+import com.test.project.exceptions.ResourceNotFoundException;
 import com.test.project.util.HashtagFinder;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -31,6 +32,10 @@ public class HashtagServiceImpl  implements HashtagService {
     public Page<HashtagWithPostsDto> getAll(Pageable pageable) {
         return hashtagRepository.findAll(pageable).map(entity->mapper.map(entity, HashtagWithPostsDto.class));
     }
+    @Override
+    public Page<HashtagWithPostsDto> getAllTop(Pageable pageable) {
+        return hashtagRepository.getAllTop(pageable).map(entity->mapper.map(entity, HashtagWithPostsDto.class));
+    }
 
     @Override
     @Transactional
@@ -52,15 +57,14 @@ public class HashtagServiceImpl  implements HashtagService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public HashtagWithPostsDto delete(Long id) {
-        HashtagWithPostsDto hashtag = read(id);
+    public void delete(Long id) {
         hashtagRepository.deleteById(id);
-        return hashtag;
     }
 
     @Override
     public HashtagWithPostsDto read(Long id) {
-        Hashtag hashtag = hashtagRepository.findById(id).orElse(null);
+        Hashtag hashtag = hashtagRepository.findById(id)
+                .orElseThrow((()->new ResourceNotFoundException("Invite object with id:" +id+" not found")));
         return mapper.map(hashtag,HashtagWithPostsDto.class);
     }
 }

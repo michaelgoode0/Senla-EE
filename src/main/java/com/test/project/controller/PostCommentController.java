@@ -5,6 +5,7 @@ import com.test.project.dto.PostCommentDto;
 import com.test.project.dto.PostCommentWithAllDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,10 +40,10 @@ public class PostCommentController {
         return ResponseEntity.ok(response);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<PostCommentWithAllDto> delete (@PathVariable @NotNull(message = "Post comment id can not be null")
+    public ResponseEntity<Void> delete (@PathVariable @NotNull(message = "Post comment id can not be null")
                                                              @Positive(message = "Post comment id can not be negative") Long id){
-        PostCommentWithAllDto response = postCommentService.delete(id);
-        return ResponseEntity.ok(response);
+        postCommentService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

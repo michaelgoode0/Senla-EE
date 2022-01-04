@@ -7,22 +7,18 @@ import com.test.project.api.service.ReactionService;
 import com.test.project.dto.*;
 import com.test.project.entity.Hashtag;
 import com.test.project.entity.Post;
-import com.test.project.entity.UserProfile;
-import com.test.project.exceptions.GlobalException;
+import com.test.project.exceptions.ResourceNotFoundException;
 import com.test.project.security.api.repository.UserRepository;
 import com.test.project.security.model.User;
 import com.test.project.util.AuthNameHolder;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.Converters;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -51,9 +47,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    @PreAuthorize("@postServiceImpl.read(#postDto.id).profile.user.username == authentication.name")
+    @PreAuthorize("@postServiceImpl.read(#postDto.id).profile.user.username == authentication.name"+ "|| hasRole('ROLE_ADMIN')")
     public PostWithProfileDto update(PostDto postDto) {
-        Post post = postRepository.findById(postDto.getId()).orElse(null);
+        Post post = postRepository.findById(postDto.getId())
+                .orElseThrow((()->new ResourceNotFoundException("Post with id:" + postDto.getId() + " not found")));
         Set<HashtagWithPostsDto> hashtags = hashtagService.createUniqueHashtags(mapper.map(post,PostDto.class));
         mapper.map(postDto,post);
         Set<HashtagWithPostsDto> newHashtags = hashtagService.createUniqueHashtags(mapper.map(post,PostDto.class));
@@ -69,25 +66,30 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public PostWithAllDto read(Long id) {
-        Post response = postRepository.findById(id).orElse(null);
+        Post response = postRepository.findById(id)
+                .orElseThrow((()->new ResourceNotFoundException("Post with id:" + id + " not found")));
         return mapper.map(response, PostWithAllDto.class);
     }
 
     @Override
     @Transactional
-    @PreAuthorize("@postServiceImpl.read(#id).profile.user.username == authentication.name")
-    public PostWithAllDto delete(Long id) {
-        PostWithAllDto response = read(id);
+    @PreAuthorize("@postServiceImpl.read(#id).profile.user.username == authentication.name"+ "|| hasRole('ROLE_ADMIN')")
+    public void delete(Long id) {
         postRepository.deleteById(id);
-        return mapper.map(response, PostWithAllDto.class);
     }
 
     @Override
     @Transactional
     public PostWithReactionsDto setReaction(Long postId, boolean react){
-        Post post = postRepository.findById(postId).orElse(null);
+        Post post = postRepository.findById(postId)
+                .orElseThrow((()->new ResourceNotFoundException("Post with id:" + postId + " not found")));
         PostDto postDto = mapper.map(post, PostDto.class);
         reactionService.react(postDto,react);
         return mapper.map(post, PostWithReactionsDto.class);
+    }
+    @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Page<PostWithAllDto> findAll(Pageable pageable) {
+        return postRepository.findAll(pageable).map(entity->mapper.map(entity, PostWithAllDto.class));
     }
 }

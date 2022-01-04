@@ -6,7 +6,6 @@ import com.test.project.security.api.repository.RoleRepository;
 import com.test.project.security.api.repository.UserRepository;
 import com.test.project.security.api.service.UserService;
 import com.test.project.security.dto.LoginDto;
-import com.test.project.security.dto.UserDto;
 import com.test.project.security.dto.UserWithAllDto;
 import com.test.project.security.enums.RoleName;
 import com.test.project.security.filter.TokenProvider;
@@ -59,9 +58,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRoles(Collections.singletonList(userRole));
         user.setProfile(userProfile);
-        User user1 = userRepository.save(user);
-        userProfile.setUser(user1);
-        userProfileRepository.save(userProfile);
+        userRepository.save(user);
         return mapper.map(user,UserWithAllDto.class);
     }
 

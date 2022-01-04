@@ -3,11 +3,13 @@ package com.test.project.service;
 import com.test.project.api.repository.PostCommentRepository;
 import com.test.project.api.service.PostCommentService;
 import com.test.project.api.service.PostService;
-import com.test.project.dto.*;
+import com.test.project.dto.PostCommentDto;
+import com.test.project.dto.PostCommentWithAllDto;
+import com.test.project.dto.PostWithAllDto;
 import com.test.project.entity.Post;
 import com.test.project.entity.PostComment;
+import com.test.project.exceptions.ResourceNotFoundException;
 import com.test.project.security.api.service.UserService;
-import com.test.project.security.dto.UserDto;
 import com.test.project.security.dto.UserWithAllDto;
 import com.test.project.security.model.User;
 import com.test.project.util.AuthNameHolder;
@@ -42,9 +44,10 @@ public class PostCommentServiceImpl implements PostCommentService {
 
     @Override
     @Transactional
-    @PreAuthorize("@postCommentServiceImpl.read(#postCommentDto.id).profile.user.username == authentication.name")
+    @PreAuthorize("@postCommentServiceImpl.read(#postCommentDto.id).profile.user.username == authentication.name"+ "|| hasRole('ROLE_ADMIN')")
     public PostCommentDto update(PostCommentDto postCommentDto) {
-        PostComment postComment = postCommentRepository.findById(postCommentDto.getId()).orElse(null);
+        PostComment postComment = postCommentRepository.findById(postCommentDto.getId())
+                .orElseThrow((()->new ResourceNotFoundException("Post comment with id:" + postCommentDto.getId()+" not found")));
         mapper.map(postCommentDto,postComment);
         PostComment response = postCommentRepository.save(postComment);
         return mapper.map(response, PostCommentDto.class);
@@ -52,17 +55,16 @@ public class PostCommentServiceImpl implements PostCommentService {
 
     @Override
     @Transactional
-    @PreAuthorize("@postCommentServiceImpl.read(#id).profile.user.username == authentication.name")
-    public PostCommentWithAllDto delete(Long id) {
-        PostCommentWithAllDto response = read(id);
+    @PreAuthorize("@postCommentServiceImpl.read(#id).profile.user.username == authentication.name"+ "|| hasRole('ROLE_ADMIN')")
+    public void delete(Long id) {
         postCommentRepository.deleteById(id);
-        return mapper.map(response, PostCommentWithAllDto.class);
     }
 
     @Override
     @Transactional
     public PostCommentWithAllDto read(Long id) {
-        PostComment response = postCommentRepository.findById(id).orElse(null);
+        PostComment response = postCommentRepository.findById(id)
+                .orElseThrow((()->new ResourceNotFoundException("Post comment with id:" + id +" not found")));
         return mapper.map(response, PostCommentWithAllDto.class);
     }
 

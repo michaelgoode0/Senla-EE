@@ -4,14 +4,11 @@ package com.test.project.security.controller;
 import com.test.project.security.api.repository.UserRepository;
 import com.test.project.security.api.service.UserService;
 import com.test.project.security.dto.LoginDto;
-import com.test.project.security.dto.UserDto;
 import com.test.project.security.dto.UserWithAllDto;
-import com.test.project.security.model.User;
 import com.test.project.util.AuthNameHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 

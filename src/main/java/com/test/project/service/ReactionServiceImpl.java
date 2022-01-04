@@ -1,20 +1,18 @@
 package com.test.project.service;
 
-import com.test.project.api.repository.PostRepository;
 import com.test.project.api.repository.ReactionRepository;
 import com.test.project.api.service.ReactionService;
-import com.test.project.dto.*;
+import com.test.project.dto.PostDto;
+import com.test.project.dto.ReactionDto;
 import com.test.project.entity.Post;
 import com.test.project.entity.Reaction;
 import com.test.project.entity.UserProfile;
-import com.test.project.security.api.repository.UserRepository;
 import com.test.project.security.api.service.UserService;
-import com.test.project.security.dto.UserDto;
 import com.test.project.security.dto.UserWithAllDto;
-import com.test.project.security.model.User;
 import com.test.project.util.AuthNameHolder;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +29,7 @@ public class ReactionServiceImpl implements ReactionService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<ReactionDto> getAll(){
         return reactionRepository.findAll().stream()
                 .map(entity->mapper.map(entity,ReactionDto.class)).collect(Collectors.toList());
