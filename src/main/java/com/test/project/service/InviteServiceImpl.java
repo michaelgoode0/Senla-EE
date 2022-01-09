@@ -38,14 +38,19 @@ public class InviteServiceImpl implements InviteService {
     }
 
     @Override
+    public Page<InviteDto> findInviteByStatus(InviteStatus status,Pageable pageable) {
+        return inviteRepository.findAllByStatus(status,pageable)
+                .map(entity->mapper.map(entity, InviteDto.class));
+    }
+
+    @Override
     @Transactional
     public InviteDto sendInvite(Long toUserId){
             UserWithAllDto user =  userService.loadByUsername(AuthNameHolder.getAuthUsername());
             UserProfile fromUser = mapper.map(user.getProfile(),UserProfile.class);
             UserProfileWithAllDto userProfile = userProfileService.read(toUserId);
             UserProfile toUser = mapper.map(userProfile,UserProfile.class);
-            if(inviteRepository.findInviteByUserToAndUserFrom(toUser,fromUser)==null &&
-                    !toUser.getFriends().contains(toUser) && !toUserId.equals(fromUser.getId())) {
+            if(inviteRepository.findInviteByUserToAndUserFrom(toUser,fromUser)==null) {
                 Invite inv = new Invite();
                 inv.setUserFrom(fromUser);
                 inv.setUserTo(toUser);
@@ -64,11 +69,7 @@ public class InviteServiceImpl implements InviteService {
     public InviteDto acceptInvite(Long id){
         Invite invite= inviteRepository.findById(id)
                 .orElseThrow(()->new ResourceNotFoundException("Invite object with id:" + id + " not found"));
-        UserProfile fromUser = invite.getUserFrom();
-        UserProfile toUser = invite.getUserTo();
-        fromUser.getFriends().add(toUser);
-        toUser.getFriends().add(fromUser);
-        inviteRepository.delete(invite);
+        invite.setStatus(InviteStatus.ACCEPTED);
         return mapper.map(invite,InviteDto.class);
     }
     @Override
@@ -77,7 +78,7 @@ public class InviteServiceImpl implements InviteService {
     public InviteDto denyInvite(Long id){
         Invite invite= inviteRepository.findById(id)
                 .orElseThrow(()->new ResourceNotFoundException("Invite object with id:" + id + " not found"));
-        inviteRepository.delete(invite);
+        invite.setStatus(InviteStatus.DENIED);
         return mapper.map(invite,InviteDto.class);
     }
 

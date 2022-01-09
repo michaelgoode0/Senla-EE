@@ -13,7 +13,7 @@ import java.util.Date;
 @Table(name = "invites")
 public class Invite {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "date_of_invite")
@@ -22,17 +22,9 @@ public class Invite {
     private InviteStatus status;
 
     @OneToOne
-    @JoinTable(name = "invites_from_user", joinColumns = {
-            @JoinColumn(name = "invites_id", referencedColumnName = "id")},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "from_user_id", referencedColumnName = "id")
-            })
+    @JoinColumn(name = "from_user_id")
     private UserProfile userFrom;
     @OneToOne
-    @JoinTable(name = "invites_to_user", joinColumns = {
-            @JoinColumn(name = "invites_id", referencedColumnName = "id")},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "to_user_id", referencedColumnName = "id")
-            })
+    @JoinColumn(name = "to_user_id")
     private UserProfile userTo;
 }

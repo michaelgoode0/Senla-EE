@@ -1,7 +1,8 @@
 package com.test.project.security.service;
 
-import com.test.project.api.repository.UserProfileRepository;
+import com.test.project.entity.User;
 import com.test.project.entity.UserProfile;
+import com.test.project.exceptions.ResourceNotFoundException;
 import com.test.project.security.api.repository.RoleRepository;
 import com.test.project.security.api.repository.UserRepository;
 import com.test.project.security.api.service.UserService;
@@ -10,7 +11,6 @@ import com.test.project.security.dto.UserWithAllDto;
 import com.test.project.security.enums.RoleName;
 import com.test.project.security.filter.TokenProvider;
 import com.test.project.security.model.Role;
-import com.test.project.security.model.User;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,13 +33,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private final AuthenticationManagerBuilder authenticationManager;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final UserProfileRepository userProfileRepository;
     private final RoleRepository roleRepository;
     private final ModelMapper mapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findUserByUsername(username);
+        User user = userRepository.findUserByUsername(username).orElseThrow(()->new ResourceNotFoundException("User not found"));
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
@@ -79,7 +78,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     @Transactional
     public UserWithAllDto loadByUsername(String username) {
-        User user = userRepository.findUserByUsername(username);
+        User user = userRepository.findUserByUsername(username).orElse(new User());
         return mapper.map(user,UserWithAllDto.class);
 
     }

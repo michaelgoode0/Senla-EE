@@ -1,6 +1,6 @@
-package com.test.project.security.model;
+package com.test.project.entity;
 
-import com.test.project.entity.UserProfile;
+import com.test.project.security.model.Role;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,27 +16,22 @@ import java.util.List;
 @Table(name = "users")
 public class User implements UserDetails  {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Column(name = "username")
     private String username;
     @Column(name="password")
     private String password;
-    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.REMOVE})
-    @JoinTable(name = "profiles_users", joinColumns = {
-            @JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "user_profile_id", referencedColumnName = "id")
-            })
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
     private UserProfile profile;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles", joinColumns = {
             @JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {
                     @JoinColumn(name = "role_id", referencedColumnName = "id")
             })
     private List<Role> roles;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

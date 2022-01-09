@@ -51,4 +51,5 @@ public class InviteController {
         log.info("The user, " + AuthNameHolder.getAuthUsername() + ", got a list of Invites");
         return ResponseEntity.ok(result.getContent());
     }
+
 }

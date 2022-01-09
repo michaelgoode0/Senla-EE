@@ -5,16 +5,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface HashtagRepository  extends JpaRepository<Hashtag,Long> {
     Hashtag findHashtagByValue(String value);
     @Query("select h.value from Hashtag h")
     List<String> findHashtagValues();
-    @Query("select h from Hashtag h order by h.posts.size desc")
+    @Query("select h from Hashtag h order by size(h.posts) desc")
     Page<Hashtag> getAllTop(Pageable pageable);
-
 }

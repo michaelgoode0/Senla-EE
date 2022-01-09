@@ -1,11 +1,12 @@
 package com.test.project.service ;
 
+import com.test.project.WebAppTest;
 import com.test.project.WithMockCustomUser;
 import com.test.project.api.repository.PostRepository;
-import com.test.project.api.service.PostService;
 import com.test.project.dto.PostDto;
 import com.test.project.dto.PostWithAllDto;
 import com.test.project.entity.Post;
+import com.test.project.security.api.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -13,9 +14,8 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -24,27 +24,33 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-
-@ExtendWith(MockitoExtension.class)
+@ExtendWith({MockitoExtension.class,SpringExtension.class})
+@ContextConfiguration(classes = PostServiceImpl.class)
 @WithMockCustomUser
-public class PostServiceTest {
+public class PostServiceTest extends WebAppTest {
 
     @InjectMocks
     private PostServiceImpl postService;
 
     @Spy
-    private ModelMapper mapper;
+    private ModelMapper modelMapper;
+
+    @Spy
+    private PostRepository postRepository;
 
     @Mock
-    private PostRepository postRepository;
+    private HashtagServiceImpl hashtagService;
+
+    @Mock
+    private UserRepository userRepository;
+
 
     @Test
     @Transactional
     public void createPostShouldFinishOk(){
         Post post=new Post();
         post.setId(123L);
-        final String text = "user #3";
-        final String hashtag = "#3";
+        final String text = "user";
         post.setText(text);
         when(postRepository.save(any())).thenReturn(post);
 
@@ -54,7 +60,6 @@ public class PostServiceTest {
 
         assertEquals(123L, postDto1.getId());
         assertEquals(text, postDto1.getText());
-        assertTrue(post.getHashtags().stream().anyMatch(k->k.getValue().equals(hashtag)));
 
     }
     @Test
@@ -83,21 +88,18 @@ public class PostServiceTest {
 
     @Test
     public void updatePostShouldFinishOk(){
-        Post post = new Post();
-        post.setId(123L);
-        String text = "user";
-        post.setText(text);
-        when(postRepository.save(any())).thenReturn(post);
+        PostDto postDto1 = new PostDto();
+        postDto1.setId(123L);
+        postDto1.setText("user1");
+        postService.create(postDto1);
 
         PostDto postDto = new PostDto();
-        post.setText(text);
-        PostDto savePost = postService.create(postDto);
-        text = "user2";
-        savePost.setText(text);
-        postService.update(savePost);
+        postDto.setId(123L);
+        postDto.setText("user2");
+        postService.update(postDto);
 
-        assertEquals(123L, savePost.getId());
-        assertEquals(text, savePost.getText());
+        assertEquals(123L, postDto.getId());
+        assertEquals("user2", postRepository.findById(123L).orElse(new Post()).getText());
 
     }
 

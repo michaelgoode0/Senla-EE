@@ -12,23 +12,15 @@ import javax.persistence.*;
 @Table(name = "reactions")
 public class Reaction {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private Boolean reaction;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "reactions_profiles", joinColumns = {
-            @JoinColumn(name = "reaction_id", referencedColumnName = "id")},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "profile_id", referencedColumnName = "id")
-            })
+    @JoinColumn(name="profile_id")
     private UserProfile profile;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "reactions_posts", joinColumns = {
-            @JoinColumn(name = "reaction_id", referencedColumnName = "id")},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "post_id", referencedColumnName = "id")
-            })
+    @JoinColumn(name = "post_id")
     private Post post;
 
 

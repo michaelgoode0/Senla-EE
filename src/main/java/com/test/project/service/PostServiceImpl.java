@@ -7,16 +7,15 @@ import com.test.project.api.service.ReactionService;
 import com.test.project.dto.*;
 import com.test.project.entity.Hashtag;
 import com.test.project.entity.Post;
+import com.test.project.entity.User;
 import com.test.project.exceptions.ResourceNotFoundException;
 import com.test.project.security.api.repository.UserRepository;
-import com.test.project.security.model.User;
 import com.test.project.util.AuthNameHolder;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +35,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public PostDto create(PostDto postDto) {
-        User user = userRepository.findUserByUsername(AuthNameHolder.getAuthUsername());
+        User user = userRepository.findUserByUsername(AuthNameHolder.getAuthUsername()).orElse(new User());
         Post post = mapper.map(postDto, Post.class);
         Set<Hashtag> uniqueHashtags= hashtagService.createUniqueHashtags(postDto).stream().
                 map(entity->mapper.map(entity, Hashtag.class))

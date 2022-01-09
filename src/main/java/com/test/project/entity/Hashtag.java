@@ -14,10 +14,11 @@ import java.util.List;
 @Table(name = "hashtags")
 public class Hashtag {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @NotNull
     @Size(min = 2,max = 100)
+    @Column(name = "text")
     private String value;
     @ManyToMany(mappedBy ="hashtags", fetch = FetchType.LAZY)
     private List<Post> posts;

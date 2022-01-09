@@ -12,22 +12,13 @@ import javax.persistence.*;
 public class PostComment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String text;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "comments_posts", joinColumns = {
-            @JoinColumn(name = "comment_id", referencedColumnName = "id")},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "post_id", referencedColumnName = "id")
-            })
+    @JoinColumn(name = "post_id")
     private Post post;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "comments_profiles", joinColumns = {
-            @JoinColumn(name = "comment_id", referencedColumnName = "id")},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "profile_id", referencedColumnName = "id")
-            })
+    @JoinColumn(name = "profile_id")
     private UserProfile profile;
-
 }

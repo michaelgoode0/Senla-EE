@@ -10,4 +10,5 @@ public interface UserProfileService  {
     UserProfileWithAllDto read(Long id);
     void delete(Long id);
     Page<UserProfileDto> findAll(Pageable pageable);
+    Page<UserProfileDto> findFriends(Pageable pageable);
 }

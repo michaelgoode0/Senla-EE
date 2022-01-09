@@ -3,11 +3,8 @@ package com.test.project.repository;
 import com.test.project.BaseRepositoryTest;
 import com.test.project.api.repository.PostRepository;
 import com.test.project.entity.Post;
-import com.test.project.exceptions.ResourceNotFoundException;
-import com.test.project.security.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 

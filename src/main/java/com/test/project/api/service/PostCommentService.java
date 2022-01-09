@@ -1,12 +1,14 @@
 package com.test.project.api.service;
 
-import com.test.project.dto.PostCommentDto;
 import com.test.project.dto.PostCommentWithAllDto;
-
+import com.test.project.dto.PostCommentWithPostDto;
 
 public interface PostCommentService {
-    PostCommentDto create(PostCommentDto postCommentDto, Long postId);
-    PostCommentDto update(PostCommentDto postCommentDto);
+    PostCommentWithPostDto create(PostCommentWithPostDto commentDto);
+
+    PostCommentWithPostDto update(PostCommentWithPostDto commentDto);
+
     void delete(Long id);
+
     PostCommentWithAllDto read(Long id);
 }

@@ -59,6 +59,14 @@ public class UserProfileController {
         Page<UserProfileDto> result = userProfileService.findAll(pageable);
         return ResponseEntity.ok(result.getContent());
     }
-
-
+    @GetMapping("/friends")
+    public ResponseEntity<List<UserProfileDto>> getFriends(@RequestParam(required = false, defaultValue = "id") String[] sort,
+                                                       @RequestParam(required = false, defaultValue = "0") Integer page,
+                                                       @RequestParam(required = false, defaultValue = "asc") String direction,
+                                                       @RequestParam(required = false, defaultValue = "10") Integer size) {
+        Sort allSorts = SortHelper.getAllSortValues(direction,sort);
+        Pageable pageable = PageRequest.of(page, size, allSorts);
+        Page<UserProfileDto> result = userProfileService.findFriends(pageable);
+        return ResponseEntity.ok(result.getContent());
+    }
 }
