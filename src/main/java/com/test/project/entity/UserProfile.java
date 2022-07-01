@@ -1,28 +1,30 @@
 package com.test.project.entity;
 
-import com.test.project.security.model.User;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "users_profiles")
 public class UserProfile {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    private String name;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "users_id")
+    private String firstname;
+    private String surname;
+    private String town;
+    private Long phoneNumber;
+    @OneToOne(mappedBy = "profile",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile_id")
     private User user;
-    @OneToMany(mappedBy = "profile",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "profile",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Post> posts;
-    @OneToOne(mappedBy = "profile",fetch = FetchType.LAZY)
-    private Reaction reaction;
+    @OneToMany(mappedBy = "profile",fetch = FetchType.LAZY)
+    private List<Reaction> reaction;
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Invite> invites;
 }

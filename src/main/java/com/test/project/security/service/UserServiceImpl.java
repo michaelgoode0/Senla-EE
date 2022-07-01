@@ -1,15 +1,16 @@
 package com.test.project.security.service;
 
+import com.test.project.entity.User;
+import com.test.project.entity.UserProfile;
+import com.test.project.exceptions.ResourceNotFoundException;
 import com.test.project.security.api.repository.RoleRepository;
 import com.test.project.security.api.repository.UserRepository;
 import com.test.project.security.api.service.UserService;
 import com.test.project.security.dto.LoginDto;
-import com.test.project.security.dto.RoleDto;
-import com.test.project.security.dto.UserDto;
+import com.test.project.security.dto.UserWithAllDto;
 import com.test.project.security.enums.RoleName;
 import com.test.project.security.filter.TokenProvider;
 import com.test.project.security.model.Role;
-import com.test.project.security.model.User;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,23 +38,27 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.loadUserByUsername(username);
+        User user = userRepository.findUserByUsername(username).orElseThrow(()->new ResourceNotFoundException("User not found"));
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
         return user;
     }
 
+
     @Override
     @Transactional
-    public UserDto signUp(LoginDto dto) {
+    public UserWithAllDto signUp(LoginDto dto,RoleName roleName) {
         User user = new User();
-        Role userRole = roleRepository.findRoleByName(RoleName.ROLE_USER);
+        UserProfile userProfile = new UserProfile();
+        Role userRole = roleRepository.findRoleByRoleName(roleName);
         user.setUsername(dto.getUsername());
+        userProfile.setFirstname(dto.getUsername());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRoles(Collections.singletonList(userRole));
-        userRepository.create(user);
-        return mapper.map(user,UserDto.class);
+        user.setProfile(userProfile);
+        userRepository.save(user);
+        return mapper.map(user,UserWithAllDto.class);
     }
 
     @Override
@@ -67,12 +72,15 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     @Transactional
-    public UserDto delete(Long id){
-        User user = userRepository.delete(id);
-        if(user!=null){
-            return mapper.map(user,UserDto.class);
-        }
-        return null;
+    public void delete(Long id){
+        userRepository.deleteById(id);
+    }
+    @Override
+    @Transactional
+    public UserWithAllDto loadByUsername(String username) {
+        User user = userRepository.findUserByUsername(username).orElse(new User());
+        return mapper.map(user,UserWithAllDto.class);
+
     }
 
 }

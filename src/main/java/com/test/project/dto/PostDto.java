@@ -1,16 +1,12 @@
 package com.test.project.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
-import java.util.List;
+import javax.validation.constraints.NotEmpty;
 
 @Data
 public class PostDto {
     private Long id;
+    @NotEmpty(message = "Post text can not be empty")
     private String text;
-    @JsonIgnore
-    private UserProfileDto profile;
-    private List<PostCommentDto> comments;
-    private List<ReactionDto> reactions;
 }

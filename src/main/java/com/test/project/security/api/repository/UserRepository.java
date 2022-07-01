@@ -1,8 +1,10 @@
 package com.test.project.security.api.repository;
 
-import com.test.project.security.model.User;
-import com.test.project.util.GenericDao;
+import com.test.project.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends GenericDao<User> {
-    User loadUserByUsername(String username);
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<User,Long> {
+    Optional<User> findUserByUsername(String username);
 }

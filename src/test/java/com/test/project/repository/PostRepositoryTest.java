@@ -1,8 +1,7 @@
 package com.test.project.repository;
 
 import com.test.project.BaseRepositoryTest;
-import com.test.project.api.repository.PostRepository;;
-import com.test.project.dao.PostRepositoryImpl;
+import com.test.project.api.repository.PostRepository;
 import com.test.project.entity.Post;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-
-@ContextConfiguration(classes = PostRepositoryImpl.class)
+@ContextConfiguration(classes = PostRepository.class)
 public class PostRepositoryTest extends BaseRepositoryTest {
 
     @Autowired
@@ -22,9 +19,9 @@ public class PostRepositoryTest extends BaseRepositoryTest {
     @Transactional
     public void savePostShouldFinishOk() {
         Post post = new Post();
-        final String text = "text";
+        final String text = "text ";
         post.setText(text);
-        Post post1=postRepository.create(post);
+        Post post1=postRepository.save(post);
         assertNotNull(post1);
     }
     @Test
@@ -33,11 +30,11 @@ public class PostRepositoryTest extends BaseRepositoryTest {
         Post post = new Post();
         String text = "text";
         post.setText(text);
-        Post post1=postRepository.create(post);
+        Post post1=postRepository.save(post);
         assertNotNull(post1);
         text="text2";
         post1.setText(text);
-        postRepository.update(post1);
+        postRepository.save(post1);
 
         assertEquals(post,post1);
     }
@@ -47,20 +44,20 @@ public class PostRepositoryTest extends BaseRepositoryTest {
         Post post = new Post();
         String text = "text";
         post.setText(text);
-        Post post1= postRepository.create(post);
-        assertNotNull(postRepository.read(post1.getId()));
-        assertEquals(postRepository.read(post1.getId()),post);
+        Post post1= postRepository.save(post);
+        assertNotNull(postRepository.findById(post1.getId()));
+        assertEquals(postRepository.findById(post1.getId()).orElse(null),post);
     }
     @Test
     @Transactional
     public void deletePostShouldFinishOk() {
         Post post = new Post();
-        final String text = "text";
+        final String text = "text ";
         post.setText(text);
-        Post post1=postRepository.create(post);
+        Post post1=postRepository.save(post);
         assertNotNull(post1);
-        postRepository.delete(post1.getId());
-        Post nullPost=postRepository.read(post1.getId());
+        postRepository.deleteById(post1.getId());
+        Post nullPost=postRepository.findById(post1.getId()).orElse(null);
         assertNull(nullPost);
     }
 }

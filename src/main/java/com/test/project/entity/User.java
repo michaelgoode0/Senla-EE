@@ -1,6 +1,8 @@
-package com.test.project.security.model;
+package com.test.project.entity;
 
-import lombok.*;
+import com.test.project.security.model.Role;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,15 +13,19 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString
 @Table(name = "users")
 public class User implements UserDetails  {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @Column(name = "username")
     private String username;
+    @Column(name="password")
     private String password;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
+    private UserProfile profile;
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles", joinColumns = {
             @JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {
@@ -27,10 +33,9 @@ public class User implements UserDetails  {
             })
     private List<Role> roles;
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return getRoles();
     }
 
     @Override
